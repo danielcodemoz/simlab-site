@@ -6,33 +6,37 @@
       "id": "studio",
       "theme": "light",
       "lang": "pt",
-      "actions": "Opened and closed circuit switch, then dragged the lamp using actual renderer pointer controls.",
+      "actions": "Loaded five official Studio examples through the application selector: circuit, neutralisation, quadratic function, photosynthesis, and lunar motion. Toggled the circuit switch.",
       "file": "studio-pt-light.mp4",
-      "encoding": "H.264, 24 fps, CRF 25, native 1256x886 stage crop, no audio, faststart"
+      "encoding": "H.264, 24 fps, CRF 25, native 1256x886 stage crop, no audio, faststart",
+      "duration_seconds": 12.5
     },
     {
       "id": "studio",
       "theme": "light",
       "lang": "en",
-      "actions": "Opened and closed circuit switch, then dragged the lamp using actual renderer pointer controls.",
+      "actions": "Loaded five official Studio examples through the application selector: circuit, neutralisation, quadratic function, photosynthesis, and lunar motion. Toggled the circuit switch.",
       "file": "studio-en-light.mp4",
-      "encoding": "H.264, 24 fps, CRF 25, native 1256x886 stage crop, no audio, faststart"
+      "encoding": "H.264, 24 fps, CRF 25, native 1256x886 stage crop, no audio, faststart",
+      "duration_seconds": 12.5
     },
     {
       "id": "studio",
       "theme": "dark",
       "lang": "pt",
-      "actions": "Opened and closed circuit switch, then dragged the lamp using actual renderer pointer controls.",
+      "actions": "Loaded five official Studio examples through the application selector: circuit, neutralisation, quadratic function, photosynthesis, and lunar motion. Toggled the circuit switch.",
       "file": "studio-pt-dark.mp4",
-      "encoding": "H.264, 24 fps, CRF 25, native 1256x886 stage crop, no audio, faststart"
+      "encoding": "H.264, 24 fps, CRF 25, native 1256x886 stage crop, no audio, faststart",
+      "duration_seconds": 12.5
     },
     {
       "id": "studio",
       "theme": "dark",
       "lang": "en",
-      "actions": "Opened and closed circuit switch, then dragged the lamp using actual renderer pointer controls.",
+      "actions": "Loaded five official Studio examples through the application selector: circuit, neutralisation, quadratic function, photosynthesis, and lunar motion. Toggled the circuit switch.",
       "file": "studio-en-dark.mp4",
-      "encoding": "H.264, 24 fps, CRF 25, native 1256x886 stage crop, no audio, faststart"
+      "encoding": "H.264, 24 fps, CRF 25, native 1256x886 stage crop, no audio, faststart",
+      "duration_seconds": 12.5
     },
     {
       "id": "dna-3d",

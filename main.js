@@ -62,6 +62,123 @@ try {
 } catch {}
 document.documentElement.dataset.theme = theme;
 let cardObserver;
+let motionCleanup = () => {};
+let galleryPaused = false;
+const motionPreference = matchMedia("(prefers-reduced-motion: reduce)");
+motionPreference.addEventListener("change", () => setupMotion());
+function platformIcon(key) {
+  return key === "appimage"
+    ? '<svg viewBox="0 0 32 32" aria-hidden="true" class="os-icon"><ellipse cx="16" cy="18" rx="9" ry="12" fill="currentColor"/><ellipse cx="16" cy="20" rx="6" ry="8" fill="var(--os-belly, #fff)"/><circle cx="13" cy="10" r="2" fill="white"/><circle cx="19" cy="10" r="2" fill="white"/><circle cx="13" cy="10" r=".8" fill="#14213d"/><circle cx="19" cy="10" r=".8" fill="#14213d"/><path d="m12 14 4-3 4 3-4 3ZM5 29l7-4 3 5H5Zm22 0-7-4-3 5h10Z" fill="#f3b828"/></svg>'
+    : '<svg viewBox="0 0 32 32" aria-hidden="true" class="os-icon"><path fill="currentColor" d="M2 5 14 3v12H2Zm14-2 14-2v14H16ZM2 17h12v12L2 27Zm14 0h14v14l-14-2Z"/></svg>';
+}
+function setupMotion() {
+  motionCleanup();
+  const gallery = document.querySelector(".preview-grid");
+  const toggle = document.querySelector("#gallery-motion");
+  if (!gallery || !toggle) return;
+  let visible = false;
+  let hovering = false;
+  const reduced = motionPreference.matches;
+  const buttons = [...document.querySelectorAll("[data-preview]")];
+  const update = () => {
+    toggle.textContent =
+      galleryPaused || reduced
+        ? t("Reproduzir galeria", "Play gallery")
+        : t("Pausar galeria", "Pause gallery");
+    if (reduced)
+      toggle.textContent = t(
+        "Galeria manual · movimento reduzido",
+        "Manual gallery · reduced motion",
+      );
+    toggle.disabled = reduced;
+    toggle.setAttribute("aria-pressed", String(!galleryPaused && !reduced));
+  };
+  update();
+  toggle.onclick = () => {
+    galleryPaused = !galleryPaused;
+    update();
+  };
+  const enter = () => {
+    hovering = true;
+  };
+  const leave = () => {
+    hovering = false;
+  };
+  gallery.addEventListener("mouseenter", enter);
+  gallery.addEventListener("mouseleave", leave);
+  const galleryObserver = new IntersectionObserver(
+    (entries) => {
+      visible = entries[0].isIntersecting;
+    },
+    { threshold: 0.3 },
+  );
+  galleryObserver.observe(gallery);
+  const timer = setInterval(() => {
+    if (
+      !visible ||
+      reduced ||
+      galleryPaused ||
+      hovering ||
+      document.hidden ||
+      gallery.contains(document.activeElement)
+    )
+      return;
+    const index = buttons.findIndex(
+      (b) => b.getAttribute("aria-pressed") === "true",
+    );
+    buttons[(index + 1) % buttons.length].onclick();
+  }, 1000);
+  const video = document.querySelector(".studio video");
+  let autoStarted = false;
+  let userPaused = false;
+  let autoPausing = false;
+  const onPause = () => {
+    if (!autoPausing) userPaused = true;
+    autoPausing = false;
+  };
+  const pauseOffscreen = () => {
+    if (!video.paused) {
+      autoPausing = true;
+      video.pause();
+    }
+  };
+  video.addEventListener("pause", onPause);
+  const videoObserver = new IntersectionObserver(
+    (entries) => {
+      const entry = entries[0];
+      if (!entry.isIntersecting || entry.intersectionRatio < 0.35) {
+        pauseOffscreen();
+        return;
+      }
+      if (reduced || userPaused || document.hidden) return;
+      video.muted = true;
+      video.loop = true;
+      if (autoStarted) {
+        video.play().catch(() => {});
+      } else {
+        autoStarted = true;
+        video.parentElement.querySelector(".demo-play").click();
+      }
+    },
+    { threshold: 0.35 },
+  );
+  if (reduced) pauseOffscreen();
+  videoObserver.observe(video);
+  const hide = () => {
+    if (document.hidden) pauseOffscreen();
+  };
+  document.addEventListener("visibilitychange", hide);
+  motionCleanup = () => {
+    clearInterval(timer);
+    galleryObserver.disconnect();
+    videoObserver.disconnect();
+    video.removeEventListener("pause", onPause);
+    gallery.removeEventListener("mouseenter", enter);
+    gallery.removeEventListener("mouseleave", leave);
+    document.removeEventListener("visibilitychange", hide);
+  };
+}
+
 function captureSrc(id) {
   return `/assets/captures/${id}-${lang}-${theme}.png`;
 }
@@ -91,6 +208,7 @@ function applyTheme() {
     );
   }
   createIcons({ icons });
+  setupMotion();
 }
 let lang = "pt",
   filter = "all",
@@ -162,11 +280,12 @@ function renderDownloads() {
         : key === "appimage"
           ? t("AppImage em preparação", "AppImage in preparation")
           : t("Transferência ainda indisponível", "Download not yet available");
-      return `<article class="platform-card ${key}" data-download="${key}"><div class="platform-top"><span class="platform-icon">${icon(symbol)}</span><span class="format-tag">${extension}</span></div><div class="availability">${icon(ready ? "shield-check" : "clock")} ${status}</div><h3>${title}</h3><p class="download-lead">${lead}</p><p class="download-detail">${detail}</p><div class="file-meta">${file.bytes ? `<span>v${downloads.version}</span><span>${new Intl.NumberFormat(lang === "pt" ? "pt-MZ" : "en", { maximumFractionDigits: 1 }).format(file.bytes / 1e6)} MB</span>` : `<span>v${downloads.version}</span>`}</div>${ready ? `<a class="download-action" href="${file.url}">${icon("download")} ${label}</a>` : `<button class="download-action" disabled>${icon("clock")} ${label}</button>`}${file.sha256 ? `<details class="file-verification"><summary>${t("Detalhes do ficheiro e SHA256", "File details and SHA256")}</summary><p>${file.filename}</p><code>${file.sha256}</code><small>${t("SHA256 de referência, para comparares com o ficheiro transferido.", "Reference SHA256, for comparison with your downloaded file.")}</small></details>` : `<p class="linux-note">${t("Não há download Linux disponível nesta página.", "No Linux download is available on this page.")}</p>`}</article>`;
+      return `<article class="platform-card ${key}" data-download="${key}"><div class="platform-top"><span class="platform-icon">${platformIcon(key)}</span><span class="format-tag">${extension}</span></div><div class="availability">${icon(ready ? "shield-check" : "clock")} ${status}</div><h3>${title}</h3><p class="download-lead">${lead}</p><p class="download-detail">${detail}</p><div class="file-meta">${file.bytes ? `<span>v${downloads.version}</span><span>${new Intl.NumberFormat(lang === "pt" ? "pt-MZ" : "en", { maximumFractionDigits: 1 }).format(file.bytes / 1e6)} MB</span>` : `<span>v${downloads.version}</span>`}</div>${ready ? `<a class="download-action" href="${file.url}">${icon("download")} ${label}</a>` : `<button class="download-action" disabled>${icon("clock")} ${label}</button>`}${file.sha256 ? `<details class="file-verification"><summary>${t("Detalhes do ficheiro e SHA256", "File details and SHA256")}</summary><p>${file.filename}</p><code>${file.sha256}</code><small>${t("SHA256 de referência, para comparares com o ficheiro transferido.", "Reference SHA256, for comparison with your downloaded file.")}</small></details>` : `<p class="linux-note">${t("Não há download Linux disponível nesta página.", "No Linux download is available on this page.")}</p>`}</article>`;
     })
     .join("");
 }
 function render() {
+  motionCleanup();
   cardObserver?.disconnect();
   document.documentElement.lang = lang === "pt" ? "pt-MZ" : "en";
   document.title = t(
@@ -214,8 +333,8 @@ function render() {
    )
    .join(
      "",
-   )}</div><div class="preview-grid"><figure class="preview-main"><img data-capture="cell-3d" src="${captureSrc("cell-3d")}" width="2512" height="1774" loading="lazy" alt="${t("Captura real do explorador da célula em 3D", "Actual capture of the 3D cell explorer")}"><figcaption><span>${icon("dna")} ${t("Explorador da célula", "Cell explorer")}</span><span>3D / ${t("BIOLOGIA", "BIOLOGY")}</span></figcaption></figure><div class="experience-features"><article>${icon("sliders-horizontal")}<h3>${t("Tu controlas a experiência.", "You control the experiment.")}</h3><p>${t("Ajusta parâmetros, pausa o movimento e avança passo a passo. Observa medições e gráficos nas experiências que os incluem.", "Adjust parameters, pause motion and advance step by step. Observe readings and graphs in experiments that include them.")}</p></article><article>${icon("wifi-off")}<h3>${t("Leva o laboratório contigo.", "Take your lab with you.")}</h3><p>${t("Depois de transferida, a aplicação funciona sem internet. Guarda configurações .simlab e imagens do palco para retomar uma ideia.", "Once downloaded, the application works offline. Save .simlab configurations and stage images to return to an idea.")}</p></article></div></div><details class="motion-demo"><summary>${t("Ver o ADN em movimento", "Watch DNA in motion")}</summary><video data-demo="dna-3d" controls playsinline preload="none" poster="${captureSrc("dna-3d")}" aria-label="${t("Rotação real da dupla hélice de ADN", "Actual rotation of the DNA double helix")}"></video><p>${t("Rotação por arrasto no renderizador oficial da aplicação. Sem som.", "Drag rotation in the official application renderer. No audio.")}</p></details><p class="image-note">${t("Captura real em alta resolução. Clica na imagem para ver os pormenores.", "Actual high-resolution capture. Click the image to see the details.")}</p></div></section>
- <section class="section wrap studio"><div><div class="eyebrow">03 / ${t("CRIAR", "CREATE")}</div><h2>${t("A próxima experiência<br>pode ser tua.", "The next experiment<br>could be yours.")}</h2><p>${t("No Estúdio de criação, constrói cenários e explora as tuas próprias ideias. Guarda o trabalho e continua a experimentar.", "Build scenes and explore your own ideas in the creation Studio. Save your work and keep experimenting.")}</p><a class="text-link" href="#download">${t("Descobrir o Estúdio no SimLab", "Discover the Studio in SimLab")} ${icon("arrow-right")}</a></div><figure><video data-demo="studio" controls playsinline preload="none" poster="${captureSrc("studio")}" aria-label="${t("Demonstração real do Estúdio: abrir e fechar um circuito e mover a lâmpada", "Real Studio demonstration: opening and closing a circuit and moving the lamp")}"></video><figcaption>${t("ESTÚDIO EM ACÇÃO · REPRODUZIR DEMONSTRAÇÃO", "STUDIO IN ACTION · PLAY DEMONSTRATION")}</figcaption><p class="demo-description">${t("Abre e fecha o interruptor; depois, move a lâmpada. Gravação real do renderizador da aplicação, sem som. O vídeo só carrega quando escolhes reproduzir.", "Open and close the switch, then move the lamp. Actual recording of the application renderer, without audio. The video loads only when you choose to play.")}</p></figure></section>
+   )}</div><div class="gallery-playback"><button id="gallery-motion" type="button"></button><span>${t("Uma experiência por segundo · pausa ao apontar ou usar o teclado", "One experience per second · pauses on hover or keyboard focus")}</span></div><div class="preview-grid"><figure class="preview-main"><img data-capture="cell-3d" src="${captureSrc("cell-3d")}" width="2512" height="1774" loading="lazy" alt="${t("Captura real do explorador da célula em 3D", "Actual capture of the 3D cell explorer")}"><figcaption><span>${icon("dna")} ${t("Explorador da célula", "Cell explorer")}</span><span>3D / ${t("BIOLOGIA", "BIOLOGY")}</span></figcaption></figure><div class="experience-features"><article>${icon("sliders-horizontal")}<h3>${t("Tu controlas a experiência.", "You control the experiment.")}</h3><p>${t("Ajusta parâmetros, pausa o movimento e avança passo a passo. Observa medições e gráficos nas experiências que os incluem.", "Adjust parameters, pause motion and advance step by step. Observe readings and graphs in experiments that include them.")}</p></article><article>${icon("wifi-off")}<h3>${t("Leva o laboratório contigo.", "Take your lab with you.")}</h3><p>${t("Depois de transferida, a aplicação funciona sem internet. Guarda configurações .simlab e imagens do palco para retomar uma ideia.", "Once downloaded, the application works offline. Save .simlab configurations and stage images to return to an idea.")}</p></article></div></div><details class="motion-demo"><summary>${t("Ver o ADN em movimento", "Watch DNA in motion")}</summary><video data-demo="dna-3d" controls playsinline preload="none" poster="${captureSrc("dna-3d")}" aria-label="${t("Rotação real da dupla hélice de ADN", "Actual rotation of the DNA double helix")}"></video><p>${t("Rotação por arrasto no renderizador oficial da aplicação. Sem som.", "Drag rotation in the official application renderer. No audio.")}</p></details><p class="image-note">${t("Captura real em alta resolução. Clica na imagem para ver os pormenores.", "Actual high-resolution capture. Click the image to see the details.")}</p></div></section>
+ <section class="section wrap studio"><div><div class="eyebrow">03 / ${t("CRIAR", "CREATE")}</div><h2>${t("A próxima experiência<br>pode ser tua.", "The next experiment<br>could be yours.")}</h2><p>${t("No Estúdio de criação, constrói cenários e explora as tuas próprias ideias. Guarda o trabalho e continua a experimentar.", "Build scenes and explore your own ideas in the creation Studio. Save your work and keep experimenting.")}</p><a class="text-link" href="#download">${t("Descobrir o Estúdio no SimLab", "Discover the Studio in SimLab")} ${icon("arrow-right")}</a></div><figure><video data-demo="studio" muted loop controls playsinline preload="none" poster="${captureSrc("studio")}" aria-label="${t("Cinco exemplos reais do Estúdio: circuito, química, função quadrática, fotossíntese e movimento lunar", "Five real Studio examples: circuit, chemistry, quadratic function, photosynthesis and lunar motion")}"></video><figcaption>${t("ESTÚDIO EM ACÇÃO · REPRODUZIR DEMONSTRAÇÃO", "STUDIO IN ACTION · PLAY DEMONSTRATION")}</figcaption><p class="demo-description">${t("Cinco ideias no Estúdio: circuito, neutralização, parábola, fotossíntese e movimento na Lua. Gravação real, sem som. Reproduz ao entrar no ecrã; usa os controlos para pausar. Com movimento reduzido, começa apenas quando escolhes reproduzir.", "Five Studio ideas: circuit, neutralisation, parabola, photosynthesis and motion on the Moon. Actual recording, without audio. Plays when it enters the screen; use the controls to pause. With reduced motion, playback starts only when you choose.")}</p></figure></section>
  <section id="download" class="download-section"><div class="wrap download-hub"><div class="download-heading"><div><div class="eyebrow">${t("O TEU PRÓXIMO PASSO", "YOUR NEXT STEP")}</div><h2>${t("O teu laboratório.<br>À tua maneira.", "Your laboratory.<br>Your way.")}</h2></div><p>${t("Escolhe o formato para o teu computador: instalador ou versão portátil para Windows, AppImage para Linux.", "Choose the format for your computer: installer or portable version for Windows, AppImage for Linux.")}</p></div><div class="download-platforms">${renderDownloads()}</div><div class="download-footnote">${icon("shield-check")}<p>${t("Windows 1.0.1: instalador e versão portátil disponíveis. Os executáveis não estão assinados digitalmente e o Windows pode mostrar um aviso. O AppImage para Linux também está disponível na versão 1.0.1.", "Windows 1.0.1: installer and portable version available. The executables are not digitally signed and Windows may show a warning. The Linux AppImage is also available in version 1.0.1.")}</p></div></div></section>
  <section class="section wrap faq" id="perguntas"><div><div class="eyebrow">04 / ${t("BOM SABER", "GOOD TO KNOW")}</div><h2>${t("Antes de começar.", "Before you begin.")}</h2></div><div>${[
    [
@@ -336,14 +455,26 @@ function render() {
   };
   document.querySelectorAll("[data-filter]").forEach(
     (b) =>
-      (b.onclick = () => {
+      (b.onclick = (event) => {
+        if (event) {
+          galleryPaused = true;
+          const toggle = document.querySelector("#gallery-motion");
+          toggle.textContent = t("Reproduzir galeria", "Play gallery");
+          toggle.setAttribute("aria-pressed", "false");
+        }
         filter = b.dataset.filter;
         drawResults();
       }),
   );
   document.querySelectorAll("[data-subject]").forEach(
     (b) =>
-      (b.onclick = () => {
+      (b.onclick = (event) => {
+        if (event) {
+          galleryPaused = true;
+          const toggle = document.querySelector("#gallery-motion");
+          toggle.textContent = t("Reproduzir galeria", "Play gallery");
+          toggle.setAttribute("aria-pressed", "false");
+        }
         filter = b.dataset.subject;
         drawResults();
         document.querySelector("#catalogue").scrollIntoView({
@@ -375,7 +506,13 @@ function render() {
   }
   document.querySelectorAll("[data-preview]").forEach(
     (b) =>
-      (b.onclick = () => {
+      (b.onclick = (event) => {
+        if (event) {
+          galleryPaused = true;
+          const toggle = document.querySelector("#gallery-motion");
+          toggle.textContent = t("Reproduzir galeria", "Play gallery");
+          toggle.setAttribute("aria-pressed", "false");
+        }
         document
           .querySelectorAll("[data-preview]")
           .forEach((x) => x.setAttribute("aria-pressed", String(x === b)));

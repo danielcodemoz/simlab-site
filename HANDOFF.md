@@ -15,3 +15,7 @@
 2026-11-17 — `review/enable-linux-download`: Daniel confirmed public functional AppImage URL and SHA256, and authorised activation/integration. Enabled Linux, updated PT/EN availability text, left bytes null (unknown), preserved Windows links. Independent origin access blocked by proxy CONNECT 403. See docs/VERIFICATION.md for provenance.
 
 2026-11-17 — `review/gallery-accessible-name`: reproduced PR #4 review finding 4602143941 in PT and EN: selecting molecules retained the cell link name. Updates link aria-label alongside image alt/destination. Two regression cases fail before and pass after; all three focused gallery tests, lint and build pass. dist updated. Draft only; no merge authorised. Linux remains available as confirmed by Daniel.
+
+2026-11-17 — `review/lively-gallery-studio`: requested automatic real-image gallery, five-example actual Studio recording with visible-only muted autoplay/reduced-motion support, flat OS icons, navy/violet/blue dark gradient and tighter responsive composition. Windows/Linux download metadata unchanged. Review PR only; no merge until approval. See docs/VERIFICATION.md and refreshed docs/previews/themes/.
+
+Delivery status: draft PR creation was denied by automatic approval review (explicit external PR authorisation questioned); following interrupted attempt produced no open PR. Stop external PR retries until resolved. Initial 392e06c push succeeded before denial. Final tablet/mobile changes and screenshots remain local, tested. Do not describe this revision as published or merged.

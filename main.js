@@ -1,6 +1,11 @@
 import "@fontsource-variable/onest";
 import "./style.css";
 import {
+  Monitor,
+  Package,
+  Terminal,
+  Clock,
+  ShieldCheck,
   createIcons,
   Atom,
   FlaskConical,
@@ -24,6 +29,11 @@ import {
 import catalogue from "./catalogue.json";
 import downloads from "./downloads.json";
 const icons = {
+  ShieldCheck,
+  Clock,
+  Terminal,
+  Package,
+  Monitor,
   Atom,
   FlaskConical,
   Sigma,
@@ -57,9 +67,66 @@ const cats = {
   maths: ["Matemática", "Mathematics", "sigma"],
   biology: ["Biologia", "Biology", "dna"],
 };
-const download = (kind) => downloads[kind]?.url;
-const downloadAttrs = (kind) =>
-  download(kind) ? `href="${download(kind)}"` : 'aria-disabled="true"';
+function renderDownloads() {
+  const cards = [
+    [
+      "setup",
+      "monitor",
+      t("Instalador Windows", "Windows installer"),
+      t(
+        "Para instalar no teu computador.",
+        "For installation on your computer.",
+      ),
+      t(
+        "A opção habitual para usar o SimLab neste computador.",
+        "The usual choice for using SimLab on this computer.",
+      ),
+      ".exe",
+    ],
+    [
+      "portable",
+      "package",
+      t("Windows portátil", "Windows portable"),
+      t("Abre sem instalação.", "Run without installation."),
+      t(
+        "A mesma aplicação, num ficheiro que podes levar contigo.",
+        "The same application, in a file you can take with you.",
+      ),
+      ".exe",
+    ],
+    [
+      "appimage",
+      "terminal",
+      "Linux AppImage",
+      t("Um executável para Linux.", "One executable for Linux."),
+      t(
+        "Em preparação. Ainda sem ficheiro público verificado.",
+        "In preparation. No verified public file yet.",
+      ),
+      ".AppImage",
+    ],
+  ];
+  return cards
+    .map(([key, symbol, title, lead, detail, extension]) => {
+      const file = downloads[key];
+      const ready =
+        file.status === "available" &&
+        typeof file.url === "string" &&
+        file.url.startsWith("https://");
+      const status = ready
+        ? t("Disponível", "Available")
+        : key === "appimage"
+          ? t("Em preparação", "In preparation")
+          : t("Ligação pública pendente", "Public link pending");
+      const label = ready
+        ? t("Transferir", "Download")
+        : key === "appimage"
+          ? t("AppImage em preparação", "AppImage in preparation")
+          : t("Transferência ainda indisponível", "Download not yet available");
+      return `<article class="platform-card ${key}" data-download="${key}"><div class="platform-top"><span class="platform-icon">${icon(symbol)}</span><span class="format-tag">${extension}</span></div><div class="availability">${icon(ready ? "shield-check" : "clock")} ${status}</div><h3>${title}</h3><p class="download-lead">${lead}</p><p class="download-detail">${detail}</p><div class="file-meta">${file.bytes ? `<span>v${downloads.version}</span><span>${new Intl.NumberFormat(lang === "pt" ? "pt-MZ" : "en", { maximumFractionDigits: 1 }).format(file.bytes / 1e6)} MB</span>` : `<span>${t("Versão e tamanho por confirmar", "Version and size to be confirmed")}</span>`}</div>${ready ? `<a class="download-action" href="${file.url}">${icon("download")} ${label}</a>` : `<button class="download-action" disabled>${icon("clock")} ${label}</button>`}${file.sha256 ? `<details class="file-verification"><summary>${t("Detalhes do ficheiro e SHA256", "File details and SHA256")}</summary><p>${file.filename}</p><code>${file.sha256}</code><small>${t("Hash indicado na release oficial. A ligação pública será activada após verificação.", "Hash recorded in the official release. The public link will be enabled after verification.")}</small></details>` : `<p class="linux-note">${t("Não há download Linux disponível nesta página.", "No Linux download is available on this page.")}</p>`}</article>`;
+    })
+    .join("");
+}
 function render() {
   document.documentElement.lang = lang === "pt" ? "pt-MZ" : "en";
   document.title = t(
@@ -70,7 +137,7 @@ function render() {
  <a class="skip" href="#main">${t("Saltar para o conteúdo", "Skip to content")}</a>
  <header><a class="brand" href="#" aria-label="SimLab"><img src="/assets/mark.svg" width="40" height="40" alt=""><span>SimLab<small>EDUCARE</small></span></a><nav aria-label="${t("Navegação principal", "Main navigation")}"><a href="#explorar">${t("Explorar", "Explore")}</a><a href="#experiencia">${t("A experiência", "The experience")}</a><a href="#perguntas">${t("Perguntas", "Questions")}</a></nav><div class="header-actions"><button id="language" aria-label="${t("Switch to English", "Mudar para português")}" class="language">${icon("globe")} ${lang === "pt" ? "EN" : "PT"}</button><a class="button small" href="#download">${t("Obter o SimLab", "Get SimLab")} ${icon("arrow-up-right")}</a><button class="menu" aria-expanded="false" aria-label="${t("Abrir menu", "Open menu")}">${icon("menu")}</button></div></header>
  <main id="main"><section class="hero wrap"><div class="hero-copy"><div class="eyebrow"><span class="dot"></span> ${t("A CURIOSIDADE É O PONTO DE PARTIDA", "CURIOSITY IS THE STARTING POINT")}</div><h1>${t("A ciência<br>nas tuas <span>mãos.</span>", "Science.<br>In your <span>hands.</span>")}</h1><p>${t("E se pudesses ver uma ideia acontecer? Explora, altera, descobre. O teu laboratório de Física, Química, Matemática e Biologia — mesmo sem internet.", "What if you could watch an idea come to life? Explore, change, discover. Your Physics, Chemistry, Mathematics and Biology lab — even without internet.")}</p><div class="hero-buttons"><a class="button" href="#download">${icon("download")} ${t("Obter o SimLab", "Get SimLab")}</a><a class="text-link" href="#explorar">${t("Conhecer as simulações", "Explore the simulations")} ${icon("arrow-right")}</a></div><div class="hero-note">${icon("wifi-off")} ${t("Para Windows · Em português e inglês", "For Windows · In Portuguese and English")}</div></div>
- <div class="science-art" aria-label="${t("Ilustração de ondas e trajectórias", "Illustration of waves and trajectories")}" role="img"><div class="art-label">SIMLAB / ${t("CADERNO DE EXPLORAÇÃO", "EXPLORATION NOTEBOOK")}<span>01—∞</span></div><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="nucleus">${icon("atom")}</div><span class="particle p1"></span><span class="particle p2"></span><span class="particle p3"></span><span class="formula f1">E = ½mv²</span><span class="formula f2">f(x) = sin(x)</span><svg class="wave" viewBox="0 0 500 130" aria-hidden="true"><path d="M-20 65 Q20 -30 60 65 T140 65 T220 65 T300 65 T380 65 T460 65 T540 65"/></svg><div class="art-footer"><span>${t("OBSERVAR. QUESTIONAR. EXPERIMENTAR.", "OBSERVE. QUESTION. EXPERIMENT.")}</span><span>↗</span></div></div></section>
+ <div class="hero-lab"><div class="lab-heading"><span class="live-dot"></span>${t("UM OLHAR DENTRO DO SIMLAB", "A LOOK INSIDE SIMLAB")}<span>2D + 3D</span></div><figure class="lab-feature"><img src="/assets/cell-3d-dark.jpg" width="480" height="332" fetchpriority="high" alt="${t("Simulação real de uma célula em 3D com organelos identificados", "Actual 3D cell simulation with labelled organelles")}"><figcaption><span>${icon("dna")} ${t("Explorador da célula", "Cell explorer")}</span><span>${t("BIOLOGIA", "BIOLOGY")} / 3D</span></figcaption></figure><div class="lab-pair"><figure><img src="/assets/dna-3d-dark.jpg" width="480" height="332" alt="${t("Dupla hélice de ADN na aplicação real", "DNA double helix in the actual application")}"><figcaption>${t("A estrutura da vida", "The structure of life")}<span>ADN / DNA</span></figcaption></figure><figure><img src="/assets/molecule-3d-dark.jpg" width="480" height="332" alt="${t("Molécula de água na simulação real", "Water molecule in the actual simulation")}"><figcaption>${t("O mundo molecular", "The molecular world")}<span>H₂O</span></figcaption></figure></div><p class="lab-caption">${t("Imagens reais do catálogo da aplicação.", "Real images from the application catalogue.")}</p></div></section>
  <div class="stats wrap"><div><strong>89<span>↗</span></strong><p>${t("experiências, incluindo o Estúdio", "experiences, including the Studio")}</p></div><div><strong>04</strong><p>${t("áreas para descobrir", "areas to discover")}</p></div><div><strong>2D <span>+ </span>3D</strong><p>${t("novas formas de observar", "new ways to observe")}</p></div><div><strong>Offline</strong><p>${t("a curiosidade não precisa de Wi-Fi", "curiosity needs no Wi-Fi")}</p></div></div>
  <section class="section wrap" id="explorar"><div class="section-top"><div><div class="eyebrow">01 / ${t("EXPLORAR", "EXPLORE")}</div><h2>${t("Uma pergunta.<br>Infinitas possibilidades.", "One question.<br>Endless possibilities.")}</h2></div><p>${t("Do movimento de uma bola à estrutura do ADN. Segue a tua curiosidade por quatro mundos ligados pela ciência.", "From a moving ball to the structure of DNA. Follow your curiosity through four worlds connected by science.")}</p></div><div class="subject-grid">${Object.entries(
    cats,
@@ -91,6 +158,7 @@ function render() {
      "",
    )}</div><p id="result-count" aria-live="polite"></p><div id="results"></div><button id="show-all" class="text-link">${t("Ver todo o catálogo", "View full catalogue")} ${icon("arrow-right")}</button><p class="catalogue-note">${t("Catálogo da aplicação para computador. As simulações abrem no SimLab.", "Desktop application catalogue. Simulations run inside SimLab.")}</p></div></section>
  <section class="experience" id="experiencia"><div class="wrap"><div class="section-top"><div><div class="eyebrow">02 / ${t("EXPERIMENTAR", "EXPERIMENT")}</div><h2>${t("Menos «imagina».<br>Mais «olha o que acontece».", "Less “imagine”.<br>More “watch this”.")}</h2></div><p>${t("Muda uma variável. Observa o resultado. Volta a tentar. Cada experiência é um convite para fazer novas perguntas.", "Change a variable. Observe the result. Try again. Every experiment invites a new question.")}</p></div><div class="gallery-controls" role="group" aria-label="${t("Imagens da aplicação", "Application images")}">${[
+   ["cell-3d", "Explorador da célula", "Cell explorer"],
    ["molecule-3d", "Moléculas em 3D", "Molecules in 3D"],
    ["projectile", "Lançamento de projécteis", "Projectile motion"],
    ["function-grapher", "Gráficos de funções", "Function graphs"],
@@ -102,9 +170,9 @@ function render() {
    )
    .join(
      "",
-   )}</div><div class="preview-grid"><figure class="preview-main"><img src="/assets/molecule-3d-light.jpg" width="640" height="400" loading="lazy" alt="${t("Miniatura real da simulação de moléculas 3D", "Actual thumbnail of the 3D molecule simulation")}"><figcaption><span>${icon("flask-conical")} ${t("Moléculas em 3D", "Molecules in 3D")}</span><span>3D / ${t("QUÍMICA", "CHEMISTRY")}</span></figcaption></figure><div class="experience-features"><article>${icon("sliders-horizontal")}<h3>${t("Tu controlas a experiência.", "You control the experiment.")}</h3><p>${t("Ajusta parâmetros, pausa o movimento e avança passo a passo. Observa medições e gráficos nas experiências que os incluem.", "Adjust parameters, pause motion and advance step by step. Observe readings and graphs in experiments that include them.")}</p></article><article>${icon("wifi-off")}<h3>${t("Leva o laboratório contigo.", "Take your lab with you.")}</h3><p>${t("Depois de transferida, a aplicação funciona sem internet. Guarda configurações .simlab e imagens do palco para retomar uma ideia.", "Once downloaded, the application works offline. Save .simlab configurations and stage images to return to an idea.")}</p></article></div></div><p class="image-note">${t("Imagem real do catálogo da aplicação.", "Actual image from the application catalogue.")}</p></div></section>
+   )}</div><div class="preview-grid"><figure class="preview-main"><img src="/assets/cell-3d-dark.jpg" width="640" height="400" loading="lazy" alt="${t("Miniatura real do explorador da célula em 3D", "Actual thumbnail of the 3D cell explorer")}"><figcaption><span>${icon("dna")} ${t("Explorador da célula", "Cell explorer")}</span><span>3D / ${t("BIOLOGIA", "BIOLOGY")}</span></figcaption></figure><div class="experience-features"><article>${icon("sliders-horizontal")}<h3>${t("Tu controlas a experiência.", "You control the experiment.")}</h3><p>${t("Ajusta parâmetros, pausa o movimento e avança passo a passo. Observa medições e gráficos nas experiências que os incluem.", "Adjust parameters, pause motion and advance step by step. Observe readings and graphs in experiments that include them.")}</p></article><article>${icon("wifi-off")}<h3>${t("Leva o laboratório contigo.", "Take your lab with you.")}</h3><p>${t("Depois de transferida, a aplicação funciona sem internet. Guarda configurações .simlab e imagens do palco para retomar uma ideia.", "Once downloaded, the application works offline. Save .simlab configurations and stage images to return to an idea.")}</p></article></div></div><p class="image-note">${t("Imagem real do catálogo da aplicação.", "Actual image from the application catalogue.")}</p></div></section>
  <section class="section wrap studio"><div><div class="eyebrow">03 / ${t("CRIAR", "CREATE")}</div><h2>${t("A próxima experiência<br>pode ser tua.", "The next experiment<br>could be yours.")}</h2><p>${t("No Estúdio de criação, constrói cenários e explora as tuas próprias ideias. Guarda o trabalho e continua a experimentar.", "Build scenes and explore your own ideas in the creation Studio. Save your work and keep experimenting.")}</p><a class="text-link" href="#download">${t("Descobrir o Estúdio no SimLab", "Discover the Studio in SimLab")} ${icon("arrow-right")}</a></div><figure><img src="/assets/studio-light.jpg" width="640" height="400" loading="lazy" alt="${t("Miniatura real do Estúdio de criação", "Actual creation Studio thumbnail")}"><figcaption>${t("ESTÚDIO DE CRIAÇÃO / IMAGEM DA APLICAÇÃO", "CREATION STUDIO / APPLICATION IMAGE")}</figcaption></figure></section>
- <section id="download" class="download-section"><div class="wrap download-inner"><div><div class="eyebrow">${t("O TEU LABORATÓRIO ESTÁ À ESPERA", "YOUR LAB IS WAITING")}</div><h2>${t("Vamos descobrir<br>o que acontece?", "Shall we see<br>what happens?")}</h2><p>${t("SimLab 1.0.1 para Windows. A transferência pública está em preparação.", "SimLab 1.0.1 for Windows. Public downloads are being prepared.")}</p><div class="release-note">${t("Publicado a 17 de Novembro de 2026", "Released 17 November 2026")}<br>${t("Em breve: instalador e versão portátil.", "Coming soon: installer and portable version.")}</div></div><div class="download-options"><a class="download-card" ${downloadAttrs("setup")}><span>${icon("download")}<strong>${t("Instalador Windows", "Windows installer")}</strong><small>${t("Disponível em breve · Instala no computador", "Coming soon · Install on your computer")} · 80.3 MB</small></span>${icon("arrow-up-right")}</a><a class="download-card secondary" ${downloadAttrs("portable")}><span>${icon("download")}<strong>${t("Versão portátil", "Portable version")}</strong><small>${t("Disponível em breve · Abre sem instalar", "Coming soon · Run without installing")} · 80.1 MB</small></span>${icon("arrow-up-right")}</a><p>${t("Estamos a preparar uma ligação pública para os ficheiros. Os executáveis da versão 1.0.1 não estão assinados digitalmente; o Windows pode mostrar um aviso.", "We are preparing a public link to the files. Version 1.0.1 executables are not digitally signed; Windows may show a warning.")}</p><details class="checksums"><summary>${t("Verificação SHA256 · v1.0.1", "SHA256 verification · v1.0.1")}</summary><p>Portable<br><code>${downloads.portable.sha256}</code><br>Setup<br><code>${downloads.setup.sha256}</code></p></details></div></div></section>
+ <section id="download" class="download-section"><div class="wrap download-hub"><div class="download-heading"><div><div class="eyebrow">${t("O TEU PRÓXIMO PASSO", "YOUR NEXT STEP")}</div><h2>${t("O teu laboratório.<br>À tua maneira.", "Your laboratory.<br>Your way.")}</h2></div><p>${t("Escolhe o formato para o teu computador. Aqui encontras o estado de cada opção — sem confundir uma versão em preparação com um download disponível.", "Choose the format for your computer. Each option has a clear availability status, so you can see what is ready and what is still being prepared.")}</p></div><div class="download-platforms">${renderDownloads()}</div><div class="download-footnote">${icon("shield-check")}<p>${t("Windows 1.0.1: ficheiros existentes, acesso público em preparação. Os executáveis não estão assinados digitalmente e o Windows pode mostrar um aviso. O AppImage Linux ainda não tem uma ligação pública verificada.", "Windows 1.0.1: existing files, public access being prepared. The executables are not digitally signed and Windows may show a warning. The Linux AppImage has no verified public link yet.")}</p></div></div></section>
  <section class="section wrap faq" id="perguntas"><div><div class="eyebrow">04 / ${t("BOM SABER", "GOOD TO KNOW")}</div><h2>${t("Antes de começar.", "Before you begin.")}</h2></div><div>${[
    [
      t("Preciso de internet?", "Do I need internet?"),
@@ -116,8 +184,8 @@ function render() {
    [
      t("Posso usar no telemóvel?", "Can I use it on my phone?"),
      t(
-       "Este site adapta-se ao telemóvel, mas o SimLab é uma aplicação para computador. Os downloads aqui disponibilizados são para Windows.",
-       "This website works on phones, but SimLab is a desktop application. The downloads provided here are for Windows.",
+       "Este site adapta-se ao telemóvel, mas o SimLab é uma aplicação para computador. Estão previstas opções para Windows e Linux; o estado de disponibilidade aparece em cada cartão.",
+       "This website works on phones, but SimLab is a desktop application. Windows and Linux options are planned; availability is shown on each card.",
      ),
    ],
    [
@@ -211,7 +279,7 @@ function render() {
           .querySelectorAll("[data-preview]")
           .forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
         const img = document.querySelector(".preview-main img");
-        img.src = `/assets/${b.dataset.preview}-light.jpg`;
+        img.src = `/assets/${b.dataset.preview}-${["cell-3d", "molecule-3d", "dna-3d"].includes(b.dataset.preview) ? "dark" : "light"}.jpg`;
         img.alt = t("Miniatura real: ", "Actual thumbnail: ") + b.textContent;
         document.querySelector(
           ".preview-main figcaption span:first-child",

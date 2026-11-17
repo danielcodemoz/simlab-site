@@ -75,11 +75,18 @@ test("catalogue, languages, persistent preference and FAQ", async ({
     (await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa"]).analyze())
       .violations,
   ).toEqual([]);
-  await expect(page.locator(".download-card").first()).toHaveAttribute(
-    "aria-disabled",
-    "true",
+  await expect(page.locator(".download-action:disabled")).toHaveCount(3);
+  await expect(page.locator(".download-action[href]")).toHaveCount(0);
+  await expect(page.locator('[data-download="appimage"]')).toContainText(
+    "In preparation",
   );
-  await expect(page.locator(".download-card[href]")).toHaveCount(0);
+  for (const summary of await page
+    .locator(".file-verification summary")
+    .all()) {
+    await summary.click();
+    await expect(summary.locator("..").locator("code")).toBeVisible();
+    await summary.click();
+  }
   await page.locator("#language").click();
   await expect(page.locator("html")).toHaveAttribute("lang", "pt-MZ");
 });
@@ -91,7 +98,7 @@ test("reduced motion and keyboard access", async ({ page }) => {
   await page.keyboard.press("Enter");
   expect(
     await page
-      .locator(".particle")
+      .locator(".hero-lab")
       .first()
       .evaluate((el) => getComputedStyle(el).animationName),
   ).toBe("none");

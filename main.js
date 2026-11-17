@@ -384,6 +384,12 @@ function render() {
         img.src = captureSrc(b.dataset.preview);
         img.closest("a").href = img.src;
         img.alt = t("Captura real: ", "Actual capture: ") + b.textContent;
+        img
+          .closest("a")
+          .setAttribute(
+            "aria-label",
+            t("Abrir captura original: ", "Open original capture: ") + img.alt,
+          );
         document.querySelector(
           ".preview-main figcaption span:first-child",
         ).textContent = b.textContent;

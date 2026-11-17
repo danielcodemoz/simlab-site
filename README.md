@@ -22,7 +22,7 @@ The owner reports that `novo-site` serves the committed `dist/` directory withou
 
 ## Public downloads
 
-Current application release 1.0.1 exists in a **private repository**. Its public asset URLs return 404. The website intentionally shows “coming soon” rather than unusable buttons. `downloads.json` contains release sizes/hashes and null public URLs. After the owner publishes the existing binaries to the separate server downloads directory, verify complete file hashes and anonymous HTTP 200 before filling the corresponding URL and setting its status to `available`. The Windows installer, Windows portable and Linux AppImage cards derive their enabled state from this metadata. The AppImage entry remains `preparing` with no invented file metadata. Do not expose private GitHub credentials to the website.
+Windows installer and portable downloads now use the public server URLs in `downloads.json`. Daniel confirmed HTTP 200, exact file sizes and SHA256 matches from the server on 2026-11-17 and explicitly authorised activation/merge. This environment did not independently download the binaries because its network proxy blocks the domain. Verification provenance is recorded in the metadata and docs/VERIFICATION.md. Linux AppImage remains `preparing` with a disabled control and no public URL. No executables or credentials are stored in this repository.
 
 ## Real screenshots
 

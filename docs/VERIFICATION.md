@@ -62,3 +62,9 @@ Recorded two real pointer interactions: Studio circuit switch open/closed (curre
 Review remains on `review/simlab-brand-imagery` (outside the owner auto-merge workflow's `codex/` prefix). Do not merge until Daniel approves this new revision. `dist/` includes the new assets for the existing server contract. No claim of a new live deployment or independent executable verification is made.
 
 Final verification: `npm run lint`, `npm run build`, and all 13 Playwright tests pass. Tests cover 320/390/768/1440 px, all four theme/language combinations, axe WCAG checks, repeat navigation/gallery/FAQ interactions, download wiring, native-image resolution, no initial video network requests, opt-in playback under reduced motion and language/theme playback reset. Eight full-page desktop/mobile screenshots, download sections and Studio sections were refreshed for review. All eight video variants were checked with ffprobe; the renderer capture manifest contains no page errors.
+
+## Owner-confirmed Linux AppImage — 2026-11-17
+
+Daniel confirmed publication of website commit 580743c and a public, functional `https://simlab.danielpro.dev/downloads/SimLab-1.0.1.AppImage`, with SHA-256 `bb0a42d8a575c459832e10da23c87556b874f28bcfa8eaa5a54c725b3f47ac6a`, and requested activation/publication. Metadata records this owner confirmation. The AppImage link is now active and PT/EN hero, metadata, FAQ and download descriptions reflect availability. No size was supplied; bytes remains null and the card displays the verified version without an invented size. Reference checksum wording avoids implying an independently checked GitHub release. Windows metadata is unchanged.
+
+An independent HEAD request again failed before reaching the origin with proxy CONNECT 403. Browser navigation tests stub responses solely to validate button wiring. No new remote integrity or publication claim follows from those tests.

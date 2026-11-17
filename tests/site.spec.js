@@ -141,7 +141,7 @@ for (const theme of ["light", "dark"])
       );
       await expect(page.locator(".lab-feature img")).toHaveAttribute(
         "src",
-        new RegExp(`-${theme}\\.jpg$`),
+        new RegExp(`-${lang}-${theme}\\.png$`),
       );
       expect(
         (
@@ -192,4 +192,51 @@ test("Windows links use owner-confirmed URLs; Linux stays unavailable", async ({
   await expect(
     page.locator('[data-download="appimage"] button'),
   ).toBeDisabled();
+});
+
+test("native captures and opt-in video remain accessible with reduced motion", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  const mediaRequests = [];
+  page.on("request", (request) => {
+    if (request.url().endsWith(".mp4")) mediaRequests.push(request.url());
+  });
+  await page.goto("/");
+  await expect(page.locator(".brand").first()).not.toContainText(/educare/i);
+  await expect(page.locator(".hero-note")).toContainText("Linux em preparação");
+  const image = page.locator(".lab-feature img");
+  await expect
+    .poll(() => image.evaluate((i) => i.naturalWidth))
+    .toBeGreaterThan(2000);
+  await expect(image.locator("..")).toHaveAttribute(
+    "href",
+    await image.evaluate((i) => i.src),
+  );
+  const video = page.locator(".studio video");
+  expect(
+    await video.evaluate(
+      (v) => v.paused && !v.autoplay && v.preload === "none",
+    ),
+  ).toBe(true);
+  expect(mediaRequests).toEqual([]);
+  await page.locator(".studio .demo-play").click();
+  await expect
+    .poll(() => video.evaluate((v) => v.currentTime))
+    .toBeGreaterThan(0.1);
+  await video.evaluate((v) => v.pause());
+  await page.locator("#theme").click();
+  expect(await video.evaluate((v) => v.paused)).toBe(true);
+  await expect(video).toHaveAttribute("data-src", /studio-pt-dark\.mp4$/);
+  await page.locator("#language").click();
+  await expect(page.locator(".studio video")).toHaveAttribute(
+    "data-src",
+    /studio-en-dark\.mp4$/,
+  );
+  await page.locator(".motion-demo summary").click();
+  const dna = page.locator(".motion-demo video");
+  await page.locator(".motion-demo .demo-play").click();
+  await expect
+    .poll(() => dna.evaluate((v) => v.currentTime))
+    .toBeGreaterThan(0.1);
 });

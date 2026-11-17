@@ -1,0 +1,223 @@
+{
+  "sourceCommit": "37bc55c03e6ddbe1c7642ee1cf96ab023c08b43b",
+  "renderer": "Official Vite browser renderer, Chromium SwiftShader, 1600x1000 CSS pixels at DPR 2; stage screenshots, not Electron window captures",
+  "captures": [
+    {
+      "file": "dna-3d-pt-light.png",
+      "width": 2512,
+      "height": 1774,
+      "lang": "pt",
+      "theme": "light",
+      "simulation": "dna-3d",
+      "errors": []
+    },
+    {
+      "file": "cell-3d-pt-light.png",
+      "width": 2512,
+      "height": 1774,
+      "lang": "pt",
+      "theme": "light",
+      "simulation": "cell-3d",
+      "errors": []
+    },
+    {
+      "file": "molecule-3d-pt-light.png",
+      "width": 2512,
+      "height": 1774,
+      "lang": "pt",
+      "theme": "light",
+      "simulation": "molecule-3d",
+      "errors": []
+    },
+    {
+      "file": "projectile-pt-light.png",
+      "width": 2512,
+      "height": 1774,
+      "lang": "pt",
+      "theme": "light",
+      "simulation": "projectile",
+      "errors": []
+    },
+    {
+      "file": "function-grapher-pt-light.png",
+      "width": 2512,
+      "height": 1776,
+      "lang": "pt",
+      "theme": "light",
+      "simulation": "function-grapher",
+      "errors": []
+    },
+    {
+      "file": "studio-pt-light.png",
+      "width": 2512,
+      "height": 1774,
+      "lang": "pt",
+      "theme": "light",
+      "simulation": "studio",
+      "errors": []
+    },
+    {
+      "file": "dna-3d-pt-dark.png",
+      "width": 2512,
+      "height": 1774,
+      "lang": "pt",
+      "theme": "dark",
+      "simulation": "dna-3d",
+      "errors": []
+    },
+    {
+      "file": "cell-3d-pt-dark.png",
+      "width": 2512,
+      "height": 1774,
+      "lang": "pt",
+      "theme": "dark",
+      "simulation": "cell-3d",
+      "errors": []
+    },
+    {
+      "file": "molecule-3d-pt-dark.png",
+      "width": 2512,
+      "height": 1774,
+      "lang": "pt",
+      "theme": "dark",
+      "simulation": "molecule-3d",
+      "errors": []
+    },
+    {
+      "file": "projectile-pt-dark.png",
+      "width": 2512,
+      "height": 1774,
+      "lang": "pt",
+      "theme": "dark",
+      "simulation": "projectile",
+      "errors": []
+    },
+    {
+      "file": "function-grapher-pt-dark.png",
+      "width": 2512,
+      "height": 1776,
+      "lang": "pt",
+      "theme": "dark",
+      "simulation": "function-grapher",
+      "errors": []
+    },
+    {
+      "file": "studio-pt-dark.png",
+      "width": 2512,
+      "height": 1774,
+      "lang": "pt",
+      "theme": "dark",
+      "simulation": "studio",
+      "errors": []
+    },
+    {
+      "file": "dna-3d-en-light.png",
+      "width": 2512,
+      "height": 1774,
+      "lang": "en",
+      "theme": "light",
+      "simulation": "dna-3d",
+      "errors": []
+    },
+    {
+      "file": "cell-3d-en-light.png",
+      "width": 2512,
+      "height": 1774,
+      "lang": "en",
+      "theme": "light",
+      "simulation": "cell-3d",
+      "errors": []
+    },
+    {
+      "file": "molecule-3d-en-light.png",
+      "width": 2512,
+      "height": 1774,
+      "lang": "en",
+      "theme": "light",
+      "simulation": "molecule-3d",
+      "errors": []
+    },
+    {
+      "file": "projectile-en-light.png",
+      "width": 2512,
+      "height": 1774,
+      "lang": "en",
+      "theme": "light",
+      "simulation": "projectile",
+      "errors": []
+    },
+    {
+      "file": "function-grapher-en-light.png",
+      "width": 2512,
+      "height": 1776,
+      "lang": "en",
+      "theme": "light",
+      "simulation": "function-grapher",
+      "errors": []
+    },
+    {
+      "file": "studio-en-light.png",
+      "width": 2512,
+      "height": 1774,
+      "lang": "en",
+      "theme": "light",
+      "simulation": "studio",
+      "errors": []
+    },
+    {
+      "file": "dna-3d-en-dark.png",
+      "width": 2512,
+      "height": 1774,
+      "lang": "en",
+      "theme": "dark",
+      "simulation": "dna-3d",
+      "errors": []
+    },
+    {
+      "file": "cell-3d-en-dark.png",
+      "width": 2512,
+      "height": 1774,
+      "lang": "en",
+      "theme": "dark",
+      "simulation": "cell-3d",
+      "errors": []
+    },
+    {
+      "file": "molecule-3d-en-dark.png",
+      "width": 2512,
+      "height": 1774,
+      "lang": "en",
+      "theme": "dark",
+      "simulation": "molecule-3d",
+      "errors": []
+    },
+    {
+      "file": "projectile-en-dark.png",
+      "width": 2512,
+      "height": 1774,
+      "lang": "en",
+      "theme": "dark",
+      "simulation": "projectile",
+      "errors": []
+    },
+    {
+      "file": "function-grapher-en-dark.png",
+      "width": 2512,
+      "height": 1776,
+      "lang": "en",
+      "theme": "dark",
+      "simulation": "function-grapher",
+      "errors": []
+    },
+    {
+      "file": "studio-en-dark.png",
+      "width": 2512,
+      "height": 1774,
+      "lang": "en",
+      "theme": "dark",
+      "simulation": "studio",
+      "errors": []
+    }
+  ],
+  "notes": "DNA was zoomed out using the renderer wheel interaction before capture. No image upscaling or generated UI."
+}

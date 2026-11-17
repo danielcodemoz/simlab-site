@@ -2139,3 +2139,84 @@ footer .brand > span {
   background: #24242e;
   color: #fff;
 }
+
+/* Native-resolution renderer captures retain their proportions and offer originals. */
+.capture-link {
+  display: block;
+  cursor: zoom-in;
+}
+.capture-link:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: -3px;
+}
+.lab-feature .capture-link img,
+.preview-main .capture-link img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+.studio video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1256 / 887;
+  border-radius: 18px;
+  background: var(--paper);
+}
+.demo-description {
+  padding: 0 16px 16px;
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.motion-demo {
+  margin-top: 24px;
+  max-width: 800px;
+}
+.motion-demo summary {
+  cursor: pointer;
+  padding: 16px 0;
+  font-weight: 600;
+}
+.motion-demo video {
+  width: 100%;
+  aspect-ratio: 1256 / 887;
+  display: block;
+  border-radius: 16px;
+}
+.motion-demo p {
+  font-size: 0.85rem;
+}
+.video-player {
+  position: relative;
+}
+.demo-play {
+  position: absolute;
+  left: 50%;
+  bottom: 18%;
+  transform: translateX(-50%);
+  background: var(--blue);
+  color: #fff;
+  border: 0;
+  border-radius: 999px;
+  padding: 13px 20px;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 650;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 5px 20px #14213d22;
+}
+[data-theme="dark"] .demo-play {
+  color: #14213d;
+}
+.demo-play[hidden] {
+  display: none;
+}
+.demo-play svg {
+  width: 17px;
+  height: 17px;
+  vertical-align: -3px;
+  margin-right: 5px;
+}

@@ -1,0 +1,70 @@
+{
+  "sourceCommit": "37bc55c03e6ddbe1c7642ee1cf96ab023c08b43b",
+  "source": "Actual official Vite browser renderer interactions recorded in cloud Chromium. Not Electron window recordings.",
+  "clips": [
+    {
+      "id": "studio",
+      "theme": "light",
+      "lang": "pt",
+      "actions": "Opened and closed circuit switch, then dragged the lamp using actual renderer pointer controls.",
+      "file": "studio-pt-light.mp4",
+      "encoding": "H.264, 24 fps, CRF 25, native 1256x886 stage crop, no audio, faststart"
+    },
+    {
+      "id": "studio",
+      "theme": "light",
+      "lang": "en",
+      "actions": "Opened and closed circuit switch, then dragged the lamp using actual renderer pointer controls.",
+      "file": "studio-en-light.mp4",
+      "encoding": "H.264, 24 fps, CRF 25, native 1256x886 stage crop, no audio, faststart"
+    },
+    {
+      "id": "studio",
+      "theme": "dark",
+      "lang": "pt",
+      "actions": "Opened and closed circuit switch, then dragged the lamp using actual renderer pointer controls.",
+      "file": "studio-pt-dark.mp4",
+      "encoding": "H.264, 24 fps, CRF 25, native 1256x886 stage crop, no audio, faststart"
+    },
+    {
+      "id": "studio",
+      "theme": "dark",
+      "lang": "en",
+      "actions": "Opened and closed circuit switch, then dragged the lamp using actual renderer pointer controls.",
+      "file": "studio-en-dark.mp4",
+      "encoding": "H.264, 24 fps, CRF 25, native 1256x886 stage crop, no audio, faststart"
+    },
+    {
+      "id": "dna-3d",
+      "theme": "light",
+      "lang": "pt",
+      "actions": "Zoomed out to show the full helix, then rotated it using actual pointer controls.",
+      "file": "dna-3d-pt-light.mp4",
+      "encoding": "H.264, 24 fps, CRF 25, native 1256x886 stage crop, no audio, faststart"
+    },
+    {
+      "id": "dna-3d",
+      "theme": "light",
+      "lang": "en",
+      "actions": "Zoomed out to show the full helix, then rotated it using actual pointer controls.",
+      "file": "dna-3d-en-light.mp4",
+      "encoding": "H.264, 24 fps, CRF 25, native 1256x886 stage crop, no audio, faststart"
+    },
+    {
+      "id": "dna-3d",
+      "theme": "dark",
+      "lang": "pt",
+      "actions": "Zoomed out to show the full helix, then rotated it using actual pointer controls.",
+      "file": "dna-3d-pt-dark.mp4",
+      "encoding": "H.264, 24 fps, CRF 25, native 1256x886 stage crop, no audio, faststart"
+    },
+    {
+      "id": "dna-3d",
+      "theme": "dark",
+      "lang": "en",
+      "actions": "Zoomed out to show the full helix, then rotated it using actual pointer controls.",
+      "file": "dna-3d-en-dark.mp4",
+      "encoding": "H.264, 24 fps, CRF 25, native 1256x886 stage crop, no audio, faststart"
+    }
+  ]
+}

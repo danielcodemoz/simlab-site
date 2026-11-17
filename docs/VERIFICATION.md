@@ -82,3 +82,11 @@ Validation: lint/build; 15 existing tests passed; the new carousel/autoplay test
 Tablet/mobile follow-up: responsive stacking and compact navigation now begin at 900 px. Narrow-phone explanatory blocks stack into one column with 14 px body text. Rebuilt dist and refreshed desktop/mobile captures; tablet captures added at 820 px. Eight focused responsive/theme/accessibility checks passed after this adjustment (320/390/768/1440 px plus PT/EN and light/dark).
 
 Delivery blocker: automated approval review rejected creation of an external draft PR in danielcodemoz/simlab-site, stating that website edits did not explicitly authorise opening/publishing a PR to that repository. After checking trusted history, the subsequent attempt was interrupted; a read-only check confirmed there are no open PRs. No workaround or further PR attempt is being made. The initial revision 392e06c was pushed before that rejection; the tablet follow-up is retained locally pending resolved authorisation. No merge/publication.
+
+## Local review: keyboard focus and tab visibility — 2026-11-17
+
+Based on main 74a5236; no open competing PRs at inspection. Reproduced both reported issues: in PT and EN, a keyboard-focused gallery selector still allowed the image to advance; after a hidden-to-visible lifecycle transition, an on-screen Studio video stayed paused. Reduced-motion behaviour passed before the fix.
+
+The carousel now checks keyboard-visible focus on both preview selectors and its pause/resume control, in addition to the image area. Mouse activation of Resume remains usable. Video visibility and tab visibility now share one guarded resume path, so returning to the tab resumes only when the video is on-screen, motion is permitted and the visitor has not manually paused it. User pause and offscreen state remain respected.
+
+Tests use actual Chromium focus/media playback and deterministic synthetic document visibility events; this is a handler-level regression test, not a claim of manual cross-browser tab-switch testing. Two language focus cases and the video-return case failed before the fix; reduced motion passed. Final focused checks include those cases and the existing autoplay/manual-playback checks. No visual assets or download metadata changed. Prepared locally only: no push, PR or merge authorised for this follow-up.

@@ -1,2 +1,29 @@
-# simlab-site
-Website do Educare SimLab (simlab.danielpro.dev) — construído pelo Dots/Codex
+# Educare SimLab website
+
+Public presentation site for Daniel Marcos's Educare SimLab, intended for **https://simlab.danielpro.dev**. Static Vite + vanilla JavaScript/CSS. Portuguese (Mozambican/pre-1990 orthography) and English, using the application's Onest font, original mark, Lucide icons and colour palette.
+
+## Develop and verify
+
+Node 22+:
+
+```sh
+npm ci
+npm run dev
+npm run check
+```
+
+`npm run check` runs syntax/format checks, production build, and Chromium Playwright tests with axe WCAG checks. Chromium defaults to `/usr/bin/chromium`; override `CHROMIUM_PATH` when needed. `npm run preview` serves the production build. No runtime server, account or external API is needed.
+
+## Deploy to the requested server
+
+Run `npm ci && npm run build`; serve **dist/** as the static web root. Root index.html is a Vite entry point and must not be served directly in production. All fonts, scripts and images are local. No analytics or third-party runtime requests. Language preference alone is stored locally.
+
+The reported `novo-site simlab danielcodemoz/simlab-site` workflow must first be inspected on the authorised host: its build command and document root must match this project. This repository does not run deployment or modify existing server sites. See [verified evidence and blockers](docs/VERIFICATION.md).
+
+## Public downloads
+
+Current application release 1.0.1 exists in a **private repository**. Its public asset URLs return 404. The website intentionally shows “coming soon” rather than unusable buttons. `downloads.json` contains release sizes/hashes and null public URLs. After the owner publishes the existing binaries to the separate server downloads directory, verify complete file hashes and anonymous HTTP 200 before filling the URLs and updating availability copy in both languages. Do not expose private GitHub credentials to the website.
+
+## Real screenshots
+
+Current imagery is authentic catalogue imagery from the app's source. Full screenshots from the parallel Linux execution task can be added to `public/assets/` and connected to the gallery in `main.js`; preserve provenance, aspect ratio and explicit captions. Do not replace them with generated UI. Catalogue content and source SHA are recorded in [VERIFICATION.md](docs/VERIFICATION.md).

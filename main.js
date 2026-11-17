@@ -120,7 +120,10 @@ function setupMotion() {
       galleryPaused ||
       hovering ||
       document.hidden ||
-      gallery.contains(document.activeElement)
+      gallery.contains(document.activeElement) ||
+      document.activeElement.matches(
+        ".gallery-controls :focus-visible, #gallery-motion:focus-visible",
+      )
     )
       return;
     const index = buttons.findIndex(
@@ -130,6 +133,7 @@ function setupMotion() {
   }, 1000);
   const video = document.querySelector(".studio video");
   let autoStarted = false;
+  let videoVisible = false;
   let userPaused = false;
   let autoPausing = false;
   const onPause = () => {
@@ -143,22 +147,23 @@ function setupMotion() {
     }
   };
   video.addEventListener("pause", onPause);
+  const resumeVisibleVideo = () => {
+    if (!videoVisible || reduced || userPaused || document.hidden) return;
+    if (autoStarted) {
+      video.play().catch(() => {});
+    } else {
+      autoStarted = true;
+      video.muted = true;
+      video.loop = true;
+      video.parentElement.querySelector(".demo-play").click();
+    }
+  };
   const videoObserver = new IntersectionObserver(
     (entries) => {
       const entry = entries[0];
-      if (!entry.isIntersecting || entry.intersectionRatio < 0.35) {
-        pauseOffscreen();
-        return;
-      }
-      if (reduced || userPaused || document.hidden) return;
-      video.muted = true;
-      video.loop = true;
-      if (autoStarted) {
-        video.play().catch(() => {});
-      } else {
-        autoStarted = true;
-        video.parentElement.querySelector(".demo-play").click();
-      }
+      videoVisible = entry.isIntersecting && entry.intersectionRatio >= 0.35;
+      if (!videoVisible) pauseOffscreen();
+      else resumeVisibleVideo();
     },
     { threshold: 0.35 },
   );
@@ -166,6 +171,7 @@ function setupMotion() {
   videoObserver.observe(video);
   const hide = () => {
     if (document.hidden) pauseOffscreen();
+    else resumeVisibleVideo();
   };
   document.addEventListener("visibilitychange", hide);
   motionCleanup = () => {

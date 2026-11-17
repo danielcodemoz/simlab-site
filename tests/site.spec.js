@@ -121,3 +121,49 @@ test("gallery changes actual images repeatedly", async ({ page }) => {
       );
     }
 });
+for (const theme of ["light", "dark"])
+  for (const lang of ["pt", "en"]) {
+    test(`theme ${theme} / ${lang}: contrast, images and mobile layout`, async ({
+      page,
+    }) => {
+      await page.addInitScript(
+        ({ theme, lang }) => {
+          localStorage.setItem("simlab-theme", theme);
+          localStorage.setItem("simlab-language", lang);
+        },
+        { theme, lang },
+      );
+      await page.goto("/");
+      await expect(page.locator("html")).toHaveAttribute("data-theme", theme);
+      await expect(page.locator("html")).toHaveAttribute(
+        "lang",
+        lang === "pt" ? "pt-MZ" : "en",
+      );
+      await expect(page.locator(".lab-feature img")).toHaveAttribute(
+        "src",
+        new RegExp(`-${theme}\\.jpg$`),
+      );
+      expect(
+        (
+          await new AxeBuilder({ page })
+            .withTags(["wcag2a", "wcag2aa"])
+            .analyze()
+        ).violations,
+      ).toEqual([]);
+      await page.setViewportSize({ width: 390, height: 844 });
+      expect(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth <= innerWidth,
+        ),
+      ).toBe(true);
+      await expect(page.locator(".download-action:disabled")).toHaveCount(3);
+      await page.locator("#theme").click();
+      await expect(page.locator("html")).toHaveAttribute(
+        "data-theme",
+        theme === "light" ? "dark" : "light",
+      );
+      expect(
+        await page.evaluate(() => localStorage.getItem("simlab-theme")),
+      ).toBe(theme === "light" ? "dark" : "light");
+    });
+  }

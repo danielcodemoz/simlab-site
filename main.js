@@ -53,6 +53,35 @@ const icons = {
   Sun,
   Moon,
 };
+let theme = matchMedia("(prefers-color-scheme: dark)").matches
+  ? "dark"
+  : "light";
+try {
+  const saved = localStorage.getItem("simlab-theme");
+  if (saved === "light" || saved === "dark") theme = saved;
+} catch {}
+document.documentElement.dataset.theme = theme;
+let cardObserver;
+function applyTheme() {
+  document.documentElement.dataset.theme = theme;
+  document.querySelectorAll('img[src*="/assets/"]').forEach((img) => {
+    if (/-light\.jpg$|-dark\.jpg$/.test(img.getAttribute("src")))
+      img.src = img
+        .getAttribute("src")
+        .replace(/-(light|dark)\.jpg$/, `-${theme}.jpg`);
+  });
+  const button = document.querySelector("#theme");
+  if (button) {
+    button.innerHTML = icon(theme === "dark" ? "sun" : "moon");
+    button.setAttribute(
+      "aria-label",
+      theme === "dark"
+        ? t("Activar tema claro", "Switch to light theme")
+        : t("Activar tema escuro", "Switch to dark theme"),
+    );
+  }
+  createIcons({ icons });
+}
 let lang = "pt",
   filter = "all",
   query = "";
@@ -128,6 +157,7 @@ function renderDownloads() {
     .join("");
 }
 function render() {
+  cardObserver?.disconnect();
   document.documentElement.lang = lang === "pt" ? "pt-MZ" : "en";
   document.title = t(
     "Educare SimLab — A ciência nas tuas mãos",
@@ -135,9 +165,9 @@ function render() {
   );
   document.querySelector("#app").innerHTML = `
  <a class="skip" href="#main">${t("Saltar para o conteúdo", "Skip to content")}</a>
- <header><a class="brand" href="#" aria-label="SimLab"><img src="/assets/mark.svg" width="40" height="40" alt=""><span>SimLab<small>EDUCARE</small></span></a><nav aria-label="${t("Navegação principal", "Main navigation")}"><a href="#explorar">${t("Explorar", "Explore")}</a><a href="#experiencia">${t("A experiência", "The experience")}</a><a href="#perguntas">${t("Perguntas", "Questions")}</a></nav><div class="header-actions"><button id="language" aria-label="${t("Switch to English", "Mudar para português")}" class="language">${icon("globe")} ${lang === "pt" ? "EN" : "PT"}</button><a class="button small" href="#download">${t("Obter o SimLab", "Get SimLab")} ${icon("arrow-up-right")}</a><button class="menu" aria-expanded="false" aria-label="${t("Abrir menu", "Open menu")}">${icon("menu")}</button></div></header>
+ <header><a class="brand" href="#" aria-label="SimLab"><img src="/assets/mark.svg" width="40" height="40" alt=""><span>SimLab<small>EDUCARE</small></span></a><nav aria-label="${t("Navegação principal", "Main navigation")}"><a href="#explorar">${t("Explorar", "Explore")}</a><a href="#experiencia">${t("A experiência", "The experience")}</a><a href="#perguntas">${t("Perguntas", "Questions")}</a></nav><div class="header-actions"><button id="language" aria-label="${t("Switch to English", "Mudar para português")}" class="language">${icon("globe")} ${lang === "pt" ? "EN" : "PT"}</button><button id="theme" class="language" type="button"></button><a class="button small" href="#download">${t("Obter o SimLab", "Get SimLab")} ${icon("arrow-up-right")}</a><button class="menu" aria-expanded="false" aria-label="${t("Abrir menu", "Open menu")}">${icon("menu")}</button></div></header>
  <main id="main"><section class="hero wrap"><div class="hero-copy"><div class="eyebrow"><span class="dot"></span> ${t("A CURIOSIDADE É O PONTO DE PARTIDA", "CURIOSITY IS THE STARTING POINT")}</div><h1>${t("A ciência<br>nas tuas <span>mãos.</span>", "Science.<br>In your <span>hands.</span>")}</h1><p>${t("E se pudesses ver uma ideia acontecer? Explora, altera, descobre. O teu laboratório de Física, Química, Matemática e Biologia — mesmo sem internet.", "What if you could watch an idea come to life? Explore, change, discover. Your Physics, Chemistry, Mathematics and Biology lab — even without internet.")}</p><div class="hero-buttons"><a class="button" href="#download">${icon("download")} ${t("Obter o SimLab", "Get SimLab")}</a><a class="text-link" href="#explorar">${t("Conhecer as simulações", "Explore the simulations")} ${icon("arrow-right")}</a></div><div class="hero-note">${icon("wifi-off")} ${t("Para Windows · Em português e inglês", "For Windows · In Portuguese and English")}</div></div>
- <div class="hero-lab"><div class="lab-heading"><span class="live-dot"></span>${t("UM OLHAR DENTRO DO SIMLAB", "A LOOK INSIDE SIMLAB")}<span>2D + 3D</span></div><figure class="lab-feature"><img src="/assets/cell-3d-dark.jpg" width="480" height="332" fetchpriority="high" alt="${t("Simulação real de uma célula em 3D com organelos identificados", "Actual 3D cell simulation with labelled organelles")}"><figcaption><span>${icon("dna")} ${t("Explorador da célula", "Cell explorer")}</span><span>${t("BIOLOGIA", "BIOLOGY")} / 3D</span></figcaption></figure><div class="lab-pair"><figure><img src="/assets/dna-3d-dark.jpg" width="480" height="332" alt="${t("Dupla hélice de ADN na aplicação real", "DNA double helix in the actual application")}"><figcaption>${t("A estrutura da vida", "The structure of life")}<span>ADN / DNA</span></figcaption></figure><figure><img src="/assets/molecule-3d-dark.jpg" width="480" height="332" alt="${t("Molécula de água na simulação real", "Water molecule in the actual simulation")}"><figcaption>${t("O mundo molecular", "The molecular world")}<span>H₂O</span></figcaption></figure></div><p class="lab-caption">${t("Imagens reais do catálogo da aplicação.", "Real images from the application catalogue.")}</p></div></section>
+ <div class="hero-lab"><div class="lab-heading"><span class="live-dot"></span>${t("UM OLHAR DENTRO DO SIMLAB", "A LOOK INSIDE SIMLAB")}<span>2D + 3D</span></div><figure class="lab-feature"><img src="/assets/cell-3d-light.jpg" width="480" height="332" fetchpriority="high" alt="${t("Simulação real de uma célula em 3D com organelos identificados", "Actual 3D cell simulation with labelled organelles")}"><figcaption><span>${icon("dna")} ${t("Explorador da célula", "Cell explorer")}</span><span>${t("BIOLOGIA", "BIOLOGY")} / 3D</span></figcaption></figure><div class="lab-pair"><figure><img src="/assets/dna-3d-light.jpg" width="480" height="332" alt="${t("Dupla hélice de ADN na aplicação real", "DNA double helix in the actual application")}"><figcaption>${t("A estrutura da vida", "The structure of life")}<span>ADN / DNA</span></figcaption></figure><figure><img src="/assets/molecule-3d-light.jpg" width="480" height="332" alt="${t("Molécula de água na simulação real", "Water molecule in the actual simulation")}"><figcaption>${t("O mundo molecular", "The molecular world")}<span>H₂O</span></figcaption></figure></div><p class="lab-caption">${t("Imagens reais do catálogo da aplicação.", "Real images from the application catalogue.")}</p></div></section>
  <div class="stats wrap"><div><strong>89<span>↗</span></strong><p>${t("experiências, incluindo o Estúdio", "experiences, including the Studio")}</p></div><div><strong>04</strong><p>${t("áreas para descobrir", "areas to discover")}</p></div><div><strong>2D <span>+ </span>3D</strong><p>${t("novas formas de observar", "new ways to observe")}</p></div><div><strong>Offline</strong><p>${t("a curiosidade não precisa de Wi-Fi", "curiosity needs no Wi-Fi")}</p></div></div>
  <section class="section wrap" id="explorar"><div class="section-top"><div><div class="eyebrow">01 / ${t("EXPLORAR", "EXPLORE")}</div><h2>${t("Uma pergunta.<br>Infinitas possibilidades.", "One question.<br>Endless possibilities.")}</h2></div><p>${t("Do movimento de uma bola à estrutura do ADN. Segue a tua curiosidade por quatro mundos ligados pela ciência.", "From a moving ball to the structure of DNA. Follow your curiosity through four worlds connected by science.")}</p></div><div class="subject-grid">${Object.entries(
    cats,
@@ -170,7 +200,7 @@ function render() {
    )
    .join(
      "",
-   )}</div><div class="preview-grid"><figure class="preview-main"><img src="/assets/cell-3d-dark.jpg" width="640" height="400" loading="lazy" alt="${t("Miniatura real do explorador da célula em 3D", "Actual thumbnail of the 3D cell explorer")}"><figcaption><span>${icon("dna")} ${t("Explorador da célula", "Cell explorer")}</span><span>3D / ${t("BIOLOGIA", "BIOLOGY")}</span></figcaption></figure><div class="experience-features"><article>${icon("sliders-horizontal")}<h3>${t("Tu controlas a experiência.", "You control the experiment.")}</h3><p>${t("Ajusta parâmetros, pausa o movimento e avança passo a passo. Observa medições e gráficos nas experiências que os incluem.", "Adjust parameters, pause motion and advance step by step. Observe readings and graphs in experiments that include them.")}</p></article><article>${icon("wifi-off")}<h3>${t("Leva o laboratório contigo.", "Take your lab with you.")}</h3><p>${t("Depois de transferida, a aplicação funciona sem internet. Guarda configurações .simlab e imagens do palco para retomar uma ideia.", "Once downloaded, the application works offline. Save .simlab configurations and stage images to return to an idea.")}</p></article></div></div><p class="image-note">${t("Imagem real do catálogo da aplicação.", "Actual image from the application catalogue.")}</p></div></section>
+   )}</div><div class="preview-grid"><figure class="preview-main"><img src="/assets/cell-3d-light.jpg" width="640" height="400" loading="lazy" alt="${t("Miniatura real do explorador da célula em 3D", "Actual thumbnail of the 3D cell explorer")}"><figcaption><span>${icon("dna")} ${t("Explorador da célula", "Cell explorer")}</span><span>3D / ${t("BIOLOGIA", "BIOLOGY")}</span></figcaption></figure><div class="experience-features"><article>${icon("sliders-horizontal")}<h3>${t("Tu controlas a experiência.", "You control the experiment.")}</h3><p>${t("Ajusta parâmetros, pausa o movimento e avança passo a passo. Observa medições e gráficos nas experiências que os incluem.", "Adjust parameters, pause motion and advance step by step. Observe readings and graphs in experiments that include them.")}</p></article><article>${icon("wifi-off")}<h3>${t("Leva o laboratório contigo.", "Take your lab with you.")}</h3><p>${t("Depois de transferida, a aplicação funciona sem internet. Guarda configurações .simlab e imagens do palco para retomar uma ideia.", "Once downloaded, the application works offline. Save .simlab configurations and stage images to return to an idea.")}</p></article></div></div><p class="image-note">${t("Imagem real do catálogo da aplicação.", "Actual image from the application catalogue.")}</p></div></section>
  <section class="section wrap studio"><div><div class="eyebrow">03 / ${t("CRIAR", "CREATE")}</div><h2>${t("A próxima experiência<br>pode ser tua.", "The next experiment<br>could be yours.")}</h2><p>${t("No Estúdio de criação, constrói cenários e explora as tuas próprias ideias. Guarda o trabalho e continua a experimentar.", "Build scenes and explore your own ideas in the creation Studio. Save your work and keep experimenting.")}</p><a class="text-link" href="#download">${t("Descobrir o Estúdio no SimLab", "Discover the Studio in SimLab")} ${icon("arrow-right")}</a></div><figure><img src="/assets/studio-light.jpg" width="640" height="400" loading="lazy" alt="${t("Miniatura real do Estúdio de criação", "Actual creation Studio thumbnail")}"><figcaption>${t("ESTÚDIO DE CRIAÇÃO / IMAGEM DA APLICAÇÃO", "CREATION STUDIO / APPLICATION IMAGE")}</figcaption></figure></section>
  <section id="download" class="download-section"><div class="wrap download-hub"><div class="download-heading"><div><div class="eyebrow">${t("O TEU PRÓXIMO PASSO", "YOUR NEXT STEP")}</div><h2>${t("O teu laboratório.<br>À tua maneira.", "Your laboratory.<br>Your way.")}</h2></div><p>${t("Escolhe o formato para o teu computador. Aqui encontras o estado de cada opção — sem confundir uma versão em preparação com um download disponível.", "Choose the format for your computer. Each option has a clear availability status, so you can see what is ready and what is still being prepared.")}</p></div><div class="download-platforms">${renderDownloads()}</div><div class="download-footnote">${icon("shield-check")}<p>${t("Windows 1.0.1: ficheiros existentes, acesso público em preparação. Os executáveis não estão assinados digitalmente e o Windows pode mostrar um aviso. O AppImage Linux ainda não tem uma ligação pública verificada.", "Windows 1.0.1: existing files, public access being prepared. The executables are not digitally signed and Windows may show a warning. The Linux AppImage has no verified public link yet.")}</p></div></div></section>
  <section class="section wrap faq" id="perguntas"><div><div class="eyebrow">04 / ${t("BOM SABER", "GOOD TO KNOW")}</div><h2>${t("Antes de começar.", "Before you begin.")}</h2></div><div>${[
@@ -222,6 +252,14 @@ function render() {
    )
    .join("")}</div></section></main>
  <footer class="wrap"><a class="brand" href="#"><img src="/assets/mark.svg" width="36" height="36" alt=""><span>SimLab<small>EDUCARE</small></span></a><p>${t("Uma criação de", "Created by")} <a href="https://github.com/danielcodemoz">Daniel Marcos · Danielpro</a></p><a href="https://github.com/danielcodemoz">${t("O autor", "The creator")} ↗</a><span>© 2026</span></footer>`;
+  applyTheme();
+  document.querySelector("#theme").onclick = () => {
+    theme = theme === "light" ? "dark" : "light";
+    try {
+      localStorage.setItem("simlab-theme", theme);
+    } catch {}
+    applyTheme();
+  };
   createIcons({ icons });
   document.querySelector("#language").onclick = () => {
     lang = lang === "pt" ? "en" : "pt";
@@ -272,6 +310,21 @@ function render() {
     drawResults();
   };
   drawResults();
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const cards = (cardObserver = new IntersectionObserver(
+      (entries, observer) => {
+        for (const entry of entries)
+          if (entry.isIntersecting) {
+            entry.target.classList.add("reveal-card");
+            observer.unobserve(entry.target);
+          }
+      },
+      { threshold: 0.12 },
+    ));
+    document
+      .querySelectorAll(".platform-card")
+      .forEach((card) => cards.observe(card));
+  }
   document.querySelectorAll("[data-preview]").forEach(
     (b) =>
       (b.onclick = () => {
@@ -279,7 +332,7 @@ function render() {
           .querySelectorAll("[data-preview]")
           .forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
         const img = document.querySelector(".preview-main img");
-        img.src = `/assets/${b.dataset.preview}-${["cell-3d", "molecule-3d", "dna-3d"].includes(b.dataset.preview) ? "dark" : "light"}.jpg`;
+        img.src = `/assets/${b.dataset.preview}-${theme}.jpg`;
         img.alt = t("Miniatura real: ", "Actual thumbnail: ") + b.textContent;
         document.querySelector(
           ".preview-main figcaption span:first-child",

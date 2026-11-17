@@ -4,3 +4,5 @@ package-lock.json
 playwright-report
 test-results
 public/assets
+# Owner-managed deployment marker; preserve its exact formatting.
+danielpro-site.json

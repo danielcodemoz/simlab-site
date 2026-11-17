@@ -5,12 +5,21 @@
     "url": null,
     "filename": "SimLab-1.0.1-setup.exe",
     "bytes": 80273978,
-    "sha256": "78c559e653e02f0fd0e7b721d8825d75e078fd5128185f28b8cee3af41795553"
+    "sha256": "78c559e653e02f0fd0e7b721d8825d75e078fd5128185f28b8cee3af41795553",
+    "status": "awaiting-public-hosting"
   },
   "portable": {
     "url": null,
     "filename": "SimLab-1.0.1-portable.exe",
     "bytes": 80105074,
-    "sha256": "0050a9d527912d90409ad3c21cfc575e4c489cd1e2f8eb99da8a4eb0d30ec8e3"
+    "sha256": "0050a9d527912d90409ad3c21cfc575e4c489cd1e2f8eb99da8a4eb0d30ec8e3",
+    "status": "awaiting-public-hosting"
+  },
+  "appimage": {
+    "status": "preparing",
+    "url": null,
+    "filename": null,
+    "bytes": null,
+    "sha256": null
   }
 }

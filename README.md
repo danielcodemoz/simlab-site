@@ -22,8 +22,12 @@ The owner reports that `novo-site` serves the committed `dist/` directory withou
 
 ## Public downloads
 
-Current application release 1.0.1 exists in a **private repository**. Its public asset URLs return 404. The website intentionally shows “coming soon” rather than unusable buttons. `downloads.json` contains release sizes/hashes and null public URLs. After the owner publishes the existing binaries to the separate server downloads directory, verify complete file hashes and anonymous HTTP 200 before filling the URLs and updating availability copy in both languages. Do not expose private GitHub credentials to the website.
+Current application release 1.0.1 exists in a **private repository**. Its public asset URLs return 404. The website intentionally shows “coming soon” rather than unusable buttons. `downloads.json` contains release sizes/hashes and null public URLs. After the owner publishes the existing binaries to the separate server downloads directory, verify complete file hashes and anonymous HTTP 200 before filling the corresponding URL and setting its status to `available`. The Windows installer, Windows portable and Linux AppImage cards derive their enabled state from this metadata. The AppImage entry remains `preparing` with no invented file metadata. Do not expose private GitHub credentials to the website.
 
 ## Real screenshots
 
 Current imagery is authentic catalogue imagery from the app's source. Full screenshots from the parallel Linux execution task can be added to `public/assets/` and connected to the gallery in `main.js`; preserve provenance, aspect ratio and explicit captions. Do not replace them with generated UI. Catalogue content and source SHA are recorded in [VERIFICATION.md](docs/VERIFICATION.md).
+
+## Existing-site changes
+
+Use a `review/` branch for subsequent proposals requiring Daniel’s approval. The owner-managed auto-merge workflow only targets `codex/` branches; do not use that prefix for approval-gated updates. Keep `dist/` in sync with the reviewed source.

@@ -26,3 +26,9 @@ Before publication: provide authorized server connection and network access; ins
 Desktop PT, desktop EN and mobile PT screenshots were visually reviewed and are in `docs/previews/`. The Library batch upload helper failed before transfer with `hosted apps tools/list request failed: network`; no Library IDs were created. Screenshots remain available in this repository and locally.
 
 Production JavaScript is approximately 31.5 kB (11.8 kB gzip), CSS 20.2 kB (5.8 kB gzip), with local subsetted font files and actual small JPG thumbnails. No generated pretend UI or remote runtime dependencies.
+
+## Publication preparation update
+
+Remote main advanced to `a1e385d`: owner-added `danielpro-site.json` declares subdomain `simlab`; `.github/workflows/auto-merge-codex.yml` marks codex draft PRs ready and squash-merges them, checking the exact PR head. These changes were merged locally and preserved. The workflow does not build or inspect the server. Per the owner-supplied setup report, `dist/` is now committed so a server serving this directory can publish without Node/build steps. No credentials or application executables are included. Pushing this update may trigger the owner-configured merge/publication.
+
+A fresh HTTPS request still failed at the environment proxy (CONNECT 403). Actual nginx document root, webhook execution and public page remain unverified. Library image IDs `libfile_a5b8fc40df388191ab55233c709c2e40` and `libfile_5119073e16ec8191b9b00f5461a78bcb` resolved to `02-projectile-stage.png` and `04-water-3d-dark.png`; both byte transfers failed, so neither is falsely represented as integrated. Existing real catalogue imagery is retained.

@@ -18,7 +18,7 @@ npm run check
 
 Run `npm ci && npm run build`; serve **dist/** as the static web root. Root index.html is a Vite entry point and must not be served directly in production. All fonts, scripts and images are local. No analytics or third-party runtime requests. Language preference alone is stored locally.
 
-The reported `novo-site simlab danielcodemoz/simlab-site` workflow must first be inspected on the authorised host: its build command and document root must match this project. This repository does not run deployment or modify existing server sites. See [verified evidence and blockers](docs/VERIFICATION.md).
+The owner reports that `novo-site` serves the committed `dist/` directory without building. The repository now contains `danielpro-site.json` with subdomain `simlab`; this establishes the requested destination but does not independently verify the server document root. The owner-added `auto-merge-codex` workflow automatically marks matching draft PRs ready and merges them. A push to this PR can therefore publish through the reported server synchronisation. `dist/` is committed for the reported server contract; regenerate it with every source change. Server-side configuration remains unverified from this environment. See [verified evidence and blockers](docs/VERIFICATION.md).
 
 ## Public downloads
 

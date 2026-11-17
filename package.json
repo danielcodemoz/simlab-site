@@ -1,0 +1,40 @@
+{
+  "name": "simlab-site",
+  "version": "1.0.0",
+  "description": "Website do Educare SimLab (simlab.danielpro.dev) — construído pelo Dots/Codex",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "lint": "node --check main.js && prettier --check .",
+    "test": "playwright test",
+    "check": "npm run lint && npm run build && npm test",
+    "format": "prettier --write ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danielcodemoz/simlab-site.git"
+  },
+  "keywords": [],
+  "author": "",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/danielcodemoz/simlab-site/issues"
+  },
+  "homepage": "https://github.com/danielcodemoz/simlab-site#readme",
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.65.1",
+    "prettier": "^3.10.1",
+    "vite": "^8.3.8"
+  },
+  "dependencies": {
+    "@fontsource-variable/onest": "^5.3.1",
+    "lucide": "^1.74.0"
+  },
+  "private": true
+}

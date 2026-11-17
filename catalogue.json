@@ -1,0 +1,625 @@
+[
+  {
+    "id": "projectile",
+    "pt": "Lançamento de projécteis",
+    "en": "Projectile motion",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "pendulum",
+    "pt": "Pêndulo simples",
+    "en": "Simple pendulum",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "spring-mass",
+    "pt": "Oscilador massa-mola",
+    "en": "Mass on a spring",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "inclined-plane",
+    "pt": "Plano inclinado",
+    "en": "Inclined plane",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "collisions",
+    "pt": "Colisões a uma dimensão",
+    "en": "Collisions in one dimension",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "circular-motion",
+    "pt": "Movimento circular uniforme",
+    "en": "Uniform circular motion",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "atwood",
+    "pt": "Máquina de Atwood",
+    "en": "Atwood machine",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "buoyancy",
+    "pt": "Impulsão e densidade",
+    "en": "Buoyancy and density",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "heating-curve",
+    "pt": "Calor e mudanças de estado",
+    "en": "Heat and changes of state",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "ideal-gas",
+    "pt": "Gás ideal",
+    "en": "Ideal gas",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "waves",
+    "pt": "Ondas numa corda",
+    "en": "Waves on a string",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "doppler",
+    "pt": "Efeito Doppler",
+    "en": "Doppler effect",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "refraction",
+    "pt": "Refracção e lei de Snell",
+    "en": "Refraction and Snell’s law",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "lens",
+    "pt": "Lentes delgadas",
+    "en": "Thin lenses",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "orbits-3d",
+    "pt": "Gravitação e órbitas",
+    "en": "Gravity and orbits",
+    "cat": "physics",
+    "dim": "3D"
+  },
+  {
+    "id": "circuit-builder",
+    "pt": "Construtor de circuitos",
+    "en": "Circuit builder",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "ohms-law",
+    "pt": "Lei de Ohm",
+    "en": "Ohm’s law",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "series-circuit",
+    "pt": "Circuito em série",
+    "en": "Series circuit",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "parallel-circuit",
+    "pt": "Circuito em paralelo",
+    "en": "Parallel circuit",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "series-parallel",
+    "pt": "Associação mista de resistências",
+    "en": "Series-parallel resistors",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "switch-lamps",
+    "pt": "Interruptores e lâmpadas",
+    "en": "Switches and lamps",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "voltage-divider",
+    "pt": "Divisor de tensão",
+    "en": "Voltage divider",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "potentiometer",
+    "pt": "Potenciómetro",
+    "en": "Potentiometer",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "wheatstone",
+    "pt": "Ponte de Wheatstone",
+    "en": "Wheatstone bridge",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "kirchhoff",
+    "pt": "Leis de Kirchhoff",
+    "en": "Kirchhoff’s laws",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "thevenin",
+    "pt": "Equivalente de Thévenin",
+    "en": "Thévenin equivalent",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "max-power",
+    "pt": "Máxima transferência de potência",
+    "en": "Maximum power transfer",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "diode",
+    "pt": "Díodo de silício",
+    "en": "Silicon diode",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "led",
+    "pt": "LED e resistência de proteção",
+    "en": "LED and series resistor",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "rc-circuit",
+    "pt": "Circuito RC",
+    "en": "RC circuit",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "rl-circuit",
+    "pt": "Circuito RL",
+    "en": "RL circuit",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "rlc-circuit",
+    "pt": "Circuito RLC em série",
+    "en": "Series RLC circuit",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "capacitor-field",
+    "pt": "Campo eléctrico num condensador",
+    "en": "Electric field in a capacitor",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "magnetic-field-3d",
+    "pt": "Carga num campo magnético",
+    "en": "Charge in a magnetic field",
+    "cat": "physics",
+    "dim": "3D"
+  },
+  {
+    "id": "fractions",
+    "pt": "Frações",
+    "en": "Fractions",
+    "cat": "maths",
+    "dim": "2D"
+  },
+  {
+    "id": "function-grapher",
+    "pt": "Gráficos de funções",
+    "en": "Function grapher",
+    "cat": "maths",
+    "dim": "2D"
+  },
+  {
+    "id": "linear-function",
+    "pt": "Função afim",
+    "en": "Linear function",
+    "cat": "maths",
+    "dim": "2D"
+  },
+  {
+    "id": "quadratic",
+    "pt": "Função quadrática",
+    "en": "Quadratic function",
+    "cat": "maths",
+    "dim": "2D"
+  },
+  {
+    "id": "exponential",
+    "pt": "Função exponencial e logaritmo",
+    "en": "Exponential function and logarithm",
+    "cat": "maths",
+    "dim": "2D"
+  },
+  {
+    "id": "derivative",
+    "pt": "Derivada: da secante à tangente",
+    "en": "Derivative: from secant to tangent",
+    "cat": "maths",
+    "dim": "2D"
+  },
+  {
+    "id": "integral",
+    "pt": "Integral e somas de Riemann",
+    "en": "Integral and Riemann sums",
+    "cat": "maths",
+    "dim": "2D"
+  },
+  {
+    "id": "pythagoras",
+    "pt": "Teorema de Pitágoras e trigonometria",
+    "en": "Pythagoras’ theorem and trigonometry",
+    "cat": "maths",
+    "dim": "2D"
+  },
+  {
+    "id": "unit-circle",
+    "pt": "Círculo trigonométrico",
+    "en": "Unit circle",
+    "cat": "maths",
+    "dim": "2D"
+  },
+  {
+    "id": "vectors",
+    "pt": "Vectores no plano",
+    "en": "Vectors in the plane",
+    "cat": "maths",
+    "dim": "2D"
+  },
+  {
+    "id": "transformations",
+    "pt": "Transformações geométricas",
+    "en": "Geometric transformations",
+    "cat": "maths",
+    "dim": "2D"
+  },
+  {
+    "id": "polar",
+    "pt": "Coordenadas polares",
+    "en": "Polar coordinates",
+    "cat": "maths",
+    "dim": "2D"
+  },
+  {
+    "id": "surface-3d",
+    "pt": "Superfícies em 3D",
+    "en": "Surfaces in 3D",
+    "cat": "maths",
+    "dim": "3D"
+  },
+  {
+    "id": "dice",
+    "pt": "Probabilidades com moedas e dados",
+    "en": "Probability with coins and dice",
+    "cat": "maths",
+    "dim": "2D"
+  },
+  {
+    "id": "normal-distribution",
+    "pt": "Distribuição normal",
+    "en": "Normal distribution",
+    "cat": "maths",
+    "dim": "2D"
+  },
+  {
+    "id": "states-of-matter",
+    "pt": "Estados da matéria",
+    "en": "States of matter",
+    "cat": "chemistry",
+    "dim": "2D"
+  },
+  {
+    "id": "boyle",
+    "pt": "Lei de Boyle-Mariotte",
+    "en": "Boyle’s law",
+    "cat": "chemistry",
+    "dim": "2D"
+  },
+  {
+    "id": "build-atom",
+    "pt": "Construir um átomo",
+    "en": "Build an atom",
+    "cat": "chemistry",
+    "dim": "2D"
+  },
+  {
+    "id": "periodic-table",
+    "pt": "Tabela periódica",
+    "en": "Periodic table",
+    "cat": "chemistry",
+    "dim": "2D"
+  },
+  {
+    "id": "molecule-3d",
+    "pt": "Moléculas em 3D",
+    "en": "Molecules in 3D",
+    "cat": "chemistry",
+    "dim": "3D"
+  },
+  {
+    "id": "flame-test",
+    "pt": "Teste de chama",
+    "en": "Flame test",
+    "cat": "chemistry",
+    "dim": "2D"
+  },
+  {
+    "id": "balancing",
+    "pt": "Acertar equações químicas",
+    "en": "Balancing chemical equations",
+    "cat": "chemistry",
+    "dim": "2D"
+  },
+  {
+    "id": "stoichiometry",
+    "pt": "Estequiometria e reagente limitante",
+    "en": "Stoichiometry and limiting reactant",
+    "cat": "chemistry",
+    "dim": "2D"
+  },
+  {
+    "id": "reaction-rates",
+    "pt": "Velocidade das reacções",
+    "en": "Reaction rates",
+    "cat": "chemistry",
+    "dim": "2D"
+  },
+  {
+    "id": "equilibrium",
+    "pt": "Equilíbrio químico",
+    "en": "Chemical equilibrium",
+    "cat": "chemistry",
+    "dim": "2D"
+  },
+  {
+    "id": "precipitation",
+    "pt": "Reacções de precipitação",
+    "en": "Precipitation reactions",
+    "cat": "chemistry",
+    "dim": "2D"
+  },
+  {
+    "id": "calorimetry",
+    "pt": "Termoquímica e calorimetria",
+    "en": "Thermochemistry and calorimetry",
+    "cat": "chemistry",
+    "dim": "2D"
+  },
+  {
+    "id": "electrochemical-cell",
+    "pt": "Pilha electroquímica",
+    "en": "Electrochemical cell",
+    "cat": "chemistry",
+    "dim": "2D"
+  },
+  {
+    "id": "electrolysis",
+    "pt": "Eletrólise da água",
+    "en": "Electrolysis of water",
+    "cat": "chemistry",
+    "dim": "2D"
+  },
+  {
+    "id": "ph-scale",
+    "pt": "Escala de pH",
+    "en": "pH scale",
+    "cat": "chemistry",
+    "dim": "2D"
+  },
+  {
+    "id": "titration",
+    "pt": "Titulação ácido-base",
+    "en": "Acid-base titration",
+    "cat": "chemistry",
+    "dim": "2D"
+  },
+  {
+    "id": "molarity",
+    "pt": "Concentração de soluções",
+    "en": "Concentration of solutions",
+    "cat": "chemistry",
+    "dim": "2D"
+  },
+  {
+    "id": "dilution",
+    "pt": "Diluição de soluções",
+    "en": "Diluting solutions",
+    "cat": "chemistry",
+    "dim": "2D"
+  },
+  {
+    "id": "cell-3d",
+    "pt": "Explorador da célula",
+    "en": "Cell explorer",
+    "cat": "biology",
+    "dim": "3D"
+  },
+  {
+    "id": "osmosis",
+    "pt": "Difusão e osmose",
+    "en": "Diffusion and osmosis",
+    "cat": "biology",
+    "dim": "2D"
+  },
+  {
+    "id": "mitosis",
+    "pt": "Mitose",
+    "en": "Mitosis",
+    "cat": "biology",
+    "dim": "2D"
+  },
+  {
+    "id": "photosynthesis",
+    "pt": "Fotossíntese",
+    "en": "Photosynthesis",
+    "cat": "biology",
+    "dim": "2D"
+  },
+  {
+    "id": "respiration",
+    "pt": "Respiração celular",
+    "en": "Cellular respiration",
+    "cat": "biology",
+    "dim": "2D"
+  },
+  {
+    "id": "dna-3d",
+    "pt": "Dupla hélice de ADN",
+    "en": "DNA double helix",
+    "cat": "biology",
+    "dim": "3D"
+  },
+  {
+    "id": "punnett",
+    "pt": "Hereditariedade: quadro de Punnett",
+    "en": "Heredity: Punnett square",
+    "cat": "biology",
+    "dim": "2D"
+  },
+  {
+    "id": "heart",
+    "pt": "Coração e circulação",
+    "en": "Heart and circulation",
+    "cat": "biology",
+    "dim": "2D"
+  },
+  {
+    "id": "predator-prey",
+    "pt": "Ecossistema: predador e presa",
+    "en": "Ecosystem: predator and prey",
+    "cat": "biology",
+    "dim": "2D"
+  },
+  {
+    "id": "sandbox",
+    "pt": "Caixa de bolas",
+    "en": "Ball sandbox",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "inclined-plane-3d",
+    "pt": "Plano inclinado em 3D",
+    "en": "Inclined plane in 3D",
+    "cat": "physics",
+    "dim": "3D"
+  },
+  {
+    "id": "geometry-bench",
+    "pt": "Bancada de geometria",
+    "en": "Geometry bench",
+    "cat": "maths",
+    "dim": "2D"
+  },
+  {
+    "id": "chemistry-bench",
+    "pt": "Bancada de química: ácidos e bases",
+    "en": "Chemistry bench: acids and bases",
+    "cat": "chemistry",
+    "dim": "2D"
+  },
+  {
+    "id": "microscope",
+    "pt": "Microscópio",
+    "en": "Microscope",
+    "cat": "biology",
+    "dim": "2D"
+  },
+  {
+    "id": "galton-board",
+    "pt": "Tabuleiro de Galton",
+    "en": "Galton board",
+    "cat": "maths",
+    "dim": "2D"
+  },
+  {
+    "id": "data-lab",
+    "pt": "Laboratório de dados",
+    "en": "Data lab",
+    "cat": "maths",
+    "dim": "2D"
+  },
+  {
+    "id": "studio",
+    "pt": "Estúdio de criação",
+    "en": "Creation studio",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "gravity-force",
+    "pt": "Força gravítica",
+    "en": "Gravitational force",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "wave-interference",
+    "pt": "Interferência de ondas",
+    "en": "Wave interference",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "radioactive-decay",
+    "pt": "Decaimento radioactivo",
+    "en": "Radioactive decay",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "skate-park",
+    "pt": "Energia no parque de skate",
+    "en": "Energy skate park",
+    "cat": "physics",
+    "dim": "2D"
+  },
+  {
+    "id": "natural-selection",
+    "pt": "Selecção natural",
+    "en": "Natural selection",
+    "cat": "biology",
+    "dim": "2D"
+  }
+]

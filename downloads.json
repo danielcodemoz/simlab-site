@@ -1,6 +1,6 @@
 {
   "version": "1.0.1",
-  "status": "windows-available-linux-preparing",
+  "status": "available",
   "setup": {
     "url": "https://simlab.danielpro.dev/downloads/SimLab-1.0.1-setup.exe",
     "filename": "SimLab-1.0.1-setup.exe",
@@ -28,10 +28,16 @@
     }
   },
   "appimage": {
-    "status": "preparing",
-    "url": null,
-    "filename": null,
+    "status": "available",
+    "url": "https://simlab.danielpro.dev/downloads/SimLab-1.0.1.AppImage",
+    "filename": "SimLab-1.0.1.AppImage",
     "bytes": null,
-    "sha256": null
+    "sha256": "bb0a42d8a575c459832e10da23c87556b874f28bcfa8eaa5a54c725b3f47ac6a",
+    "verification": {
+      "source": "owner-server-confirmation",
+      "date": "2026-11-17",
+      "public_and_functional": true,
+      "sha256_confirmed": true
+    }
   }
 }

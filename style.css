@@ -2220,3 +2220,120 @@ footer .brand > span {
   vertical-align: -3px;
   margin-right: 5px;
 }
+
+/* Logo-inspired blue, violet and amber depth without sacrificing text contrast. */
+[data-theme="dark"] body {
+  background:
+    radial-gradient(ellipse at 85% 5%, #49358570, transparent 44%),
+    radial-gradient(ellipse at 8% 35%, #174b7766, transparent 48%),
+    radial-gradient(ellipse at 90% 82%, #6e502b33, transparent 42%), #111c35;
+  background-attachment: fixed;
+}
+[data-theme="dark"] header {
+  background: #14203bea;
+}
+[data-theme="dark"] .experience {
+  background: linear-gradient(130deg, #203b59, #282849);
+}
+[data-theme="dark"] .download-section {
+  background: linear-gradient(130deg, #1d354c, #302749);
+}
+[data-theme="dark"] .hero-lab {
+  background: linear-gradient(140deg, #263d60, #363055);
+}
+[data-theme="dark"] .preview-main,
+[data-theme="dark"] .studio figure {
+  background: #1c2a46;
+}
+.gallery-playback {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 18px 0;
+}
+.gallery-playback button {
+  border: 1px solid var(--blue);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--blue);
+  font: inherit;
+  font-weight: 650;
+  padding: 10px 18px;
+  cursor: pointer;
+}
+.gallery-playback button:disabled {
+  cursor: default;
+}
+.gallery-playback span {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+.os-icon {
+  width: 32px;
+  height: 32px;
+}
+
+/* Compact, fluid composition; content remains unconstrained at small widths/zoom. */
+.hero {
+  padding-block: clamp(32px, 5vh, 64px);
+  gap: clamp(24px, 4vw, 48px);
+}
+.section {
+  padding-block: clamp(40px, 7vh, 72px);
+}
+.experience {
+  padding-block: clamp(36px, 6vh, 64px);
+}
+.section-top {
+  margin-bottom: 24px;
+  gap: 24px;
+}
+.studio {
+  gap: clamp(24px, 4vw, 52px);
+}
+.preview-grid {
+  gap: clamp(24px, 4vw, 48px);
+}
+.preview-main {
+  transform: none;
+}
+@media (min-width: 900px) {
+  .lab-feature .capture-link img {
+    max-height: min(32vh, 300px);
+  }
+  .preview-main .capture-link img {
+    height: clamp(240px, 40vh, 360px);
+  }
+  .studio video {
+    max-height: min(46vh, 400px);
+    object-fit: contain;
+  }
+  .studio figure {
+    padding: 14px;
+  }
+}
+@media (max-width: 760px) {
+  .hero {
+    padding-block: 32px;
+  }
+  .section,
+  .experience {
+    padding-block: 40px;
+  }
+  .gallery-playback {
+    gap: 8px;
+  }
+  .gallery-playback span {
+    flex-basis: 100%;
+  }
+}
+[data-theme="dark"] .subject,
+[data-theme="dark"] .catalogue {
+  background: #1b2a44;
+}
+@media (min-width: 761px) {
+  [data-theme="dark"] nav {
+    background: transparent;
+  }
+}

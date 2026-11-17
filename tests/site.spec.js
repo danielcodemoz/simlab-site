@@ -269,3 +269,36 @@ for (const lang of ["pt", "en"]) {
     }
   });
 }
+
+test("visible gallery advances every second, supports pause, and Studio autoplays silently", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page.locator(".preview-main").scrollIntoViewIfNeeded();
+  await page.mouse.move(0, 0);
+  const selected = () =>
+    page
+      .locator('[data-preview][aria-pressed="true"]')
+      .getAttribute("data-preview");
+  const initial = await selected();
+  await expect.poll(selected, { timeout: 3500 }).not.toBe(initial);
+  await page.locator("#gallery-motion").click();
+  const paused = await selected();
+  await page.waitForTimeout(1200);
+  expect(await selected()).toBe(paused);
+  await page.locator("#gallery-motion").click();
+  await expect.poll(selected, { timeout: 3500 }).not.toBe(paused);
+  const video = page.locator(".studio video");
+  await video.scrollIntoViewIfNeeded();
+  await expect
+    .poll(() => video.evaluate((v) => v.currentTime), { timeout: 5000 })
+    .toBeGreaterThan(0.1);
+  expect(
+    await video.evaluate(
+      (v) => v.muted && v.loop && v.playsInline && v.controls,
+    ),
+  ).toBe(true);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect.poll(() => video.evaluate((v) => v.paused)).toBe(true);
+  await expect(page.locator("#gallery-motion")).toBeDisabled();
+});

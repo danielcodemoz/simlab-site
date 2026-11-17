@@ -241,3 +241,31 @@ test("native captures and opt-in video remain accessible with reduced motion", a
     .poll(() => dna.evaluate((v) => v.currentTime))
     .toBeGreaterThan(0.1);
 });
+
+for (const lang of ["pt", "en"]) {
+  test(`gallery original link follows the selected capture in ${lang}`, async ({
+    page,
+  }) => {
+    await page.addInitScript(
+      (lang) => localStorage.setItem("simlab-language", lang),
+      lang,
+    );
+    await page.goto("/");
+    const buttons = await page.locator("[data-preview]").all();
+    for (const button of [...buttons.slice(1), buttons[0]]) {
+      await button.click();
+      const link = page.locator(".preview-main .capture-link");
+      const title = await button.textContent();
+      await expect(link).toHaveAccessibleName(
+        (lang === "pt"
+          ? "Abrir captura original: Captura real: "
+          : "Open original capture: Actual capture: ") + title,
+        { timeout: 1000 },
+      );
+      await expect(link).toHaveAttribute(
+        "href",
+        await page.locator(".preview-main img").evaluate((img) => img.src),
+      );
+    }
+  });
+}

@@ -20,7 +20,7 @@ for (const width of [320, 390, 768, 1440]) {
         .poll(() => img.evaluate((i) => i.complete && i.naturalWidth > 0))
         .toBe(true);
     }
-    if (width < 761) {
+    if (width <= 900) {
       for (let i = 0; i < 2; i++) {
         await page.locator(".menu").click();
         await expect(page.locator("nav")).toBeVisible();

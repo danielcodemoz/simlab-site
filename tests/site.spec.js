@@ -75,8 +75,8 @@ test("catalogue, languages, persistent preference and FAQ", async ({
     (await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa"]).analyze())
       .violations,
   ).toEqual([]);
-  await expect(page.locator(".download-action:disabled")).toHaveCount(3);
-  await expect(page.locator(".download-action[href]")).toHaveCount(0);
+  await expect(page.locator(".download-action:disabled")).toHaveCount(1);
+  await expect(page.locator(".download-action[href]")).toHaveCount(2);
   await expect(page.locator('[data-download="appimage"]')).toContainText(
     "In preparation",
   );
@@ -156,7 +156,7 @@ for (const theme of ["light", "dark"])
           () => document.documentElement.scrollWidth <= innerWidth,
         ),
       ).toBe(true);
-      await expect(page.locator(".download-action:disabled")).toHaveCount(3);
+      await expect(page.locator(".download-action:disabled")).toHaveCount(1);
       await page.locator("#theme").click();
       await expect(page.locator("html")).toHaveAttribute(
         "data-theme",
@@ -167,3 +167,29 @@ for (const theme of ["light", "dark"])
       ).toBe(theme === "light" ? "dark" : "light");
     });
   }
+
+test("Windows links use owner-confirmed URLs; Linux stays unavailable", async ({
+  page,
+}) => {
+  await page.goto("/");
+  for (const kind of ["setup", "portable"]) {
+    const link = page.locator(`[data-download="${kind}"] .download-action`);
+    const url = `https://simlab.danielpro.dev/downloads/SimLab-1.0.1-${kind}.exe`;
+    await expect(link).toHaveAttribute("href", url);
+    await expect(link).toHaveText("Transferir");
+    // Verify browser navigation wiring without pretending this stub validates the server.
+    await page.route(url, (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: "text/html",
+        body: "<p>Navigation test only</p>",
+      }),
+    );
+    await link.click();
+    await expect(page).toHaveURL(url);
+    await page.goto("/");
+  }
+  await expect(
+    page.locator('[data-download="appimage"] button'),
+  ).toBeDisabled();
+});

@@ -174,8 +174,8 @@ test("All platforms use owner-confirmed URLs", async ({ page }) => {
     const link = page.locator(`[data-download="${kind}"] .download-action`);
     const url =
       kind === "appimage"
-        ? "https://simlab.danielpro.dev/downloads/SimLab-1.0.1.AppImage"
-        : `https://simlab.danielpro.dev/downloads/SimLab-1.0.1-${kind}.exe`;
+        ? "https://simlab.danielpro.dev/downloads/SimLab-1.0.2.AppImage"
+        : `https://simlab.danielpro.dev/downloads/SimLab-1.0.2-${kind}.exe`;
     await expect(link).toHaveAttribute("href", url);
     await expect(link).toHaveText("Transferir");
     // Verify browser navigation wiring without pretending this stub validates the server.

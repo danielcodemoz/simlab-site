@@ -1,41 +1,41 @@
 {
-  "version": "1.0.1",
+  "version": "1.0.2",
   "status": "available",
   "setup": {
-    "url": "https://simlab.danielpro.dev/downloads/SimLab-1.0.1-setup.exe",
-    "filename": "SimLab-1.0.1-setup.exe",
-    "bytes": 80273978,
-    "sha256": "78c559e653e02f0fd0e7b721d8825d75e078fd5128185f28b8cee3af41795553",
+    "url": "https://simlab.danielpro.dev/downloads/SimLab-1.0.2-setup.exe",
+    "filename": "SimLab-1.0.2-setup.exe",
+    "bytes": 79366420,
+    "sha256": "77dd19fe36c392bdf7cb8c1de8a4268d8a888db04edfe79ec9ca86e9403a46cc",
     "status": "available",
     "verification": {
       "source": "owner-server-confirmation",
-      "date": "2026-11-17",
+      "date": "2026-11-19",
       "http_status": 200,
       "size_and_sha256_match": true
     }
   },
   "portable": {
-    "url": "https://simlab.danielpro.dev/downloads/SimLab-1.0.1-portable.exe",
-    "filename": "SimLab-1.0.1-portable.exe",
-    "bytes": 80105074,
-    "sha256": "0050a9d527912d90409ad3c21cfc575e4c489cd1e2f8eb99da8a4eb0d30ec8e3",
+    "url": "https://simlab.danielpro.dev/downloads/SimLab-1.0.2-portable.exe",
+    "filename": "SimLab-1.0.2-portable.exe",
+    "bytes": 79197482,
+    "sha256": "8106bbc3f44001bd58d94b36e17c2b060da20c19ee9863c43d9197a1dd48cf8b",
     "status": "available",
     "verification": {
       "source": "owner-server-confirmation",
-      "date": "2026-11-17",
+      "date": "2026-11-19",
       "http_status": 200,
       "size_and_sha256_match": true
     }
   },
   "appimage": {
     "status": "available",
-    "url": "https://simlab.danielpro.dev/downloads/SimLab-1.0.1.AppImage",
-    "filename": "SimLab-1.0.1.AppImage",
-    "bytes": null,
-    "sha256": "bb0a42d8a575c459832e10da23c87556b874f28bcfa8eaa5a54c725b3f47ac6a",
+    "url": "https://simlab.danielpro.dev/downloads/SimLab-1.0.2.AppImage",
+    "filename": "SimLab-1.0.2.AppImage",
+    "bytes": 82998295,
+    "sha256": "36107ef7848c909c0b3f8118e86f650a95206b105d6464ff306a5bff6dabd4cb",
     "verification": {
       "source": "owner-server-confirmation",
-      "date": "2026-11-17",
+      "date": "2026-11-19",
       "public_and_functional": true,
       "sha256_confirmed": true
     }

@@ -48,8 +48,16 @@ test("catalogue, languages, persistent preference and FAQ", async ({
   );
   await page.locator("#show-all").click();
   await expect(page.locator(".result")).toHaveCount(89);
+  await expect(page.locator("#show-all")).toHaveAttribute(
+    "aria-expanded",
+    "true",
+  );
   await page.locator("#show-all").click();
   await expect(page.locator(".result")).toHaveCount(8);
+  await expect(page.locator("#show-all")).toHaveAttribute(
+    "aria-expanded",
+    "false",
+  );
   await page.locator('[data-subject="biology"]').click();
   await expect(page.locator('[data-filter="biology"]')).toHaveAttribute(
     "aria-pressed",
@@ -58,7 +66,7 @@ test("catalogue, languages, persistent preference and FAQ", async ({
   await page.locator("#search").fill("zzzz");
   await expect(page.locator(".empty")).toBeVisible();
   await page.locator('[data-filter="all"]').click();
-  await page.locator("#search").fill("moleculas");
+  await page.locator("#search").fill("  moleculas  ");
   await expect(page.locator(".result")).toHaveCount(1);
   await page.locator("#search").fill("");
   await page.locator("#language").click();
@@ -96,6 +104,7 @@ test("reduced motion and keyboard access", async ({ page }) => {
   await page.keyboard.press("Tab");
   await expect(page.locator(".skip")).toBeFocused();
   await page.keyboard.press("Enter");
+  await expect(page.locator("#main")).toBeFocused();
   expect(
     await page
       .locator(".hero-lab")
@@ -191,7 +200,7 @@ test("All platforms use owner-confirmed URLs", async ({ page }) => {
     await page.goto("/");
   }
   await expect(page.locator('[data-download="appimage"] code')).toHaveText(
-    "bb0a42d8a575c459832e10da23c87556b874f28bcfa8eaa5a54c725b3f47ac6a",
+    "36107ef7848c909c0b3f8118e86f650a95206b105d6464ff306a5bff6dabd4cb",
   );
 });
 
@@ -301,4 +310,49 @@ test("visible gallery advances every second, supports pause, and Studio autoplay
   await page.emulateMedia({ reducedMotion: "reduce" });
   await expect.poll(() => video.evaluate((v) => v.paused)).toBe(true);
   await expect(page.locator("#gallery-motion")).toBeDisabled();
+});
+
+test("mobile navigation moves keyboard focus to menu, destination, and language control", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 320, height: 750 });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  const menu = page.getByRole("button", { name: "Abrir menu" });
+  await menu.focus();
+  await page.keyboard.press("Enter");
+  const firstLink = page.locator("#primary-nav a").first();
+  await expect(firstLink).toBeFocused();
+  await page.keyboard.press("Escape");
+  await expect(menu).toBeFocused();
+  await expect(menu).toHaveAttribute("aria-expanded", "false");
+  await page.keyboard.press("Enter");
+  await page.keyboard.press("Enter");
+  await expect(page).toHaveURL(/#explorar$/);
+  await expect(page.locator("#explorar")).toBeFocused();
+
+  const language = page.locator("#language");
+  await language.focus();
+  await page.keyboard.press("Enter");
+  await expect(language).toBeFocused();
+  await expect(language).toHaveAccessibleName("Mudar para português");
+});
+
+test("theme follows system changes until the visitor selects a theme", async ({
+  page,
+}) => {
+  await page.emulateMedia({ colorScheme: "light" });
+  await page.goto("/");
+  const root = page.locator("html");
+  await expect(root).toHaveAttribute("data-theme", "light");
+  await page.emulateMedia({ colorScheme: "dark" });
+  await expect(root).toHaveAttribute("data-theme", "dark");
+  await expect(page.locator(".lab-feature img")).toHaveAttribute(
+    "src",
+    /-dark\.png$/,
+  );
+  await page.locator("#theme").click();
+  await page.emulateMedia({ colorScheme: "light" });
+  await page.emulateMedia({ colorScheme: "dark" });
+  await expect(root).toHaveAttribute("data-theme", "light");
 });

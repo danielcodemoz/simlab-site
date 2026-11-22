@@ -2366,3 +2366,23 @@ footer .brand > span {
   width: 32px;
   height: 32px;
 }
+
+@media (max-width: 900px) {
+  .header-actions > button {
+    min-height: 44px;
+    min-width: 44px;
+    justify-content: center;
+  }
+
+  #primary-nav {
+    gap: 4px;
+    padding-block: 12px;
+  }
+
+  #primary-nav a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding-inline: 8px;
+  }
+}

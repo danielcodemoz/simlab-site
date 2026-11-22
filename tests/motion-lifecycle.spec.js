@@ -97,3 +97,28 @@ test("reduced motion keeps gallery and Studio manual across tab visibility chang
     true,
   );
 });
+
+test("reduced-motion gallery keeps its status label after manual selection", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  await page.locator("[data-preview]").nth(1).click();
+  const toggle = page.locator("#gallery-motion");
+  await expect(toggle).toBeDisabled();
+  await expect(toggle).toHaveText(/movimento reduzido/);
+});
+
+test("closing the DNA demo pauses its video", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  const demo = page.locator(".motion-demo");
+  await demo.locator("summary").click();
+  await demo.locator(".demo-play").click();
+  const video = demo.locator("video");
+  await expect
+    .poll(() => video.evaluate((v) => v.currentTime))
+    .toBeGreaterThan(0.1);
+  await demo.locator("summary").click();
+  await expect.poll(() => video.evaluate((v) => v.paused)).toBe(true);
+});

@@ -290,7 +290,25 @@ function renderDownloads() {
     })
     .join("");
 }
+function renderInstallerSafety() {
+  return `<section class="section wrap installer-safety" id="windows-safety" aria-labelledby="safety-title">
+  <div class="safety-copy"><div class="eyebrow">${t("WINDOWS / VERIFICAR PRIMEIRO", "WINDOWS / VERIFY FIRST")}</div>
+  <h2 id="safety-title">${t("Um aviso merece atenção.", "A warning deserves attention.")}</h2>
+  <p>${t("No Edge, «não é frequentemente transferido» indica pouca reputação de transferência. Não é o mesmo que uma detecção de malware, nem garante que o ficheiro seja seguro. O SmartScreen do Windows é uma verificação separada, ao abrir a aplicação.", "In Edge, “isn't commonly downloaded” indicates limited download reputation. It is not the same as a malware detection, nor a guarantee that the file is safe. Windows SmartScreen is a separate check when opening an application.")}</p>
+  <ol><li>${t("Na página oficial, confirme o domínio e clique em «Descarregar para Windows» (ou no botão do instalador Windows escolhido).", "On the official page, confirm the domain and click “Download for Windows” (or the button for your chosen Windows installer).")} <code>simlab.danielpro.dev</code></li><li><strong>${t("Confirma a origem.", "Confirm the source.")}</strong> ${t("Só se o Edge disser que o ficheiro não é transferido com frequência: confirme o domínio oficial, o nome exacto do ficheiro e a versão esperada. A página oficial deve publicar um SHA-256 para esse ficheiro. Se não publicar, pare.", "Only if Edge says the file isn’t commonly downloaded: confirm the official domain, exact filename and expected version. The official page must publish a SHA-256 for that exact file. If it does not, stop.")}</li>
+  <li><strong>${t("Guarda sem abrir.", "Save without opening.")}</strong> ${t("Nas Transferências do Edge, abra o menu ⋯ do ficheiro e escolha Manter (Keep). Em seguida, abra a seta junto de Eliminar (Delete) e escolha Manter mesmo assim (Keep anyway). Isto só guarda o ficheiro. Não clique em «Abrir ficheiro».", "In Edge Downloads, open the file’s ⋯ menu and choose Keep. Next, open the arrow beside Delete and choose Keep anyway. This only saves the file. Do not click “Open file”.")}</li>
+  <li><strong>${t("Confirma o ficheiro antes de executar.", "Check the file before running it.")}</strong> ${t("Compara o SHA-256 completo com o publicado para este ficheiro. Se houver uma assinatura digital, verifica a assinatura e o editor esperado nas Propriedades. Os executáveis do SimLab publicados aqui não estão assinados.", "Compare the full SHA-256 against the value published for this file. If there is a digital signature, check the signature and expected publisher in Properties. The SimLab executables published here are unsigned.")}</li></ol>
+  <p class="safety-stop">${t("Se não puder verificar a origem ou o ficheiro, o SHA-256 for diferente ou houver um aviso de perigo, de malware ou um bloqueio por política ou pelo administrador, não prossiga nem execute. Mantenha as protecções activas.", "If you cannot verify the source or file, the SHA-256 differs, or there is an unsafe-file or malware warning or a policy or administrator block, stop and do not run the file. Keep protections enabled.")}</p>
+  <details class="safety-hashes"><summary>${t("Comparar SHA-256 no PowerShell", "Compare SHA-256 in PowerShell")}</summary><p>${t("Na pasta onde guardaste o ficheiro, executa o comando correspondente. Compara todos os caracteres do resultado com a referência. Um hash igual confirma integridade, não segurança nem identidade do editor.", "In the folder where you saved the file, run the corresponding command. Compare every character of the result with the reference. A matching hash confirms integrity, not safety or publisher identity.")}</p>
+  ${["setup", "portable"].map((key) => `<div class="safety-hash"><strong>${downloads[key].filename}</strong><code>Get-FileHash -LiteralPath '.\\${downloads[key].filename}' -Algorithm SHA256</code><code>${downloads[key].sha256}</code></div>`).join("")}</details>
+  <p class="safety-contact"><a href="https://danielpro.dev">${t("Contactar o programador →", "Contact the developer →")}</a></p></div>
+  <figure class="safety-visual"><video id="safety-video" controls muted loop playsinline preload="metadata" width="960" height="540" poster="/assets/install-guide/install-guide-en-light-v5-poster.webp" aria-label="${t("Ilustração: verificar um instalador Windows", "Illustration: checking a Windows installer")}"><source src="/assets/install-guide/install-guide-en-light-v5.mp4" type="video/mp4"></video><figcaption>${t("Simulação sem som: guardar no Microsoft Edge e verificar o SHA-256 antes de executar.", "Silent simulation: saving in Microsoft Edge and checking the SHA-256 before running.")}</figcaption></figure>
+  </section>`;
+}
+
+let safetyCleanup = () => {};
 function render() {
+  safetyCleanup();
   motionCleanup();
   cardObserver?.disconnect();
   document.documentElement.lang = lang === "pt" ? "pt-MZ" : "en";
@@ -342,6 +360,7 @@ function render() {
    )}</div><div class="gallery-playback"><button id="gallery-motion" type="button"></button><span>${t("Uma experiência por segundo · pausa ao apontar ou usar o teclado", "One experience per second · pauses on hover or keyboard focus")}</span></div><div class="preview-grid"><figure class="preview-main"><img data-capture="cell-3d" src="${captureSrc("cell-3d")}" width="2512" height="1774" loading="lazy" alt="${t("Captura real do explorador da célula em 3D", "Actual capture of the 3D cell explorer")}"><figcaption><span>${icon("dna")} ${t("Explorador da célula", "Cell explorer")}</span><span>3D / ${t("BIOLOGIA", "BIOLOGY")}</span></figcaption></figure><div class="experience-features"><article>${icon("sliders-horizontal")}<h3>${t("Tu controlas a experiência.", "You control the experiment.")}</h3><p>${t("Ajusta parâmetros, pausa o movimento e avança passo a passo. Observa medições e gráficos nas experiências que os incluem.", "Adjust parameters, pause motion and advance step by step. Observe readings and graphs in experiments that include them.")}</p></article><article>${icon("wifi-off")}<h3>${t("Leva o laboratório contigo.", "Take your lab with you.")}</h3><p>${t("Depois de transferida, a aplicação funciona sem internet. Guarda configurações .simlab e imagens do palco para retomar uma ideia.", "Once downloaded, the application works offline. Save .simlab configurations and stage images to return to an idea.")}</p></article></div></div><details class="motion-demo"><summary>${t("Ver o ADN em movimento", "Watch DNA in motion")}</summary><video data-demo="dna-3d" controls playsinline preload="none" poster="${captureSrc("dna-3d")}" aria-label="${t("Rotação real da dupla hélice de ADN", "Actual rotation of the DNA double helix")}"></video><p>${t("Rotação por arrasto no renderizador oficial da aplicação. Sem som.", "Drag rotation in the official application renderer. No audio.")}</p></details><p class="image-note">${t("Captura real em alta resolução. Clica na imagem para ver os pormenores.", "Actual high-resolution capture. Click the image to see the details.")}</p></div></section>
  <section class="section wrap studio"><div><div class="eyebrow">03 / ${t("CRIAR", "CREATE")}</div><h2>${t("A próxima experiência<br>pode ser tua.", "The next experiment<br>could be yours.")}</h2><p>${t("No Estúdio de criação, constrói cenários e explora as tuas próprias ideias. Guarda o trabalho e continua a experimentar.", "Build scenes and explore your own ideas in the creation Studio. Save your work and keep experimenting.")}</p><a class="text-link" href="#download">${t("Descobrir o Estúdio no SimLab", "Discover the Studio in SimLab")} ${icon("arrow-right")}</a></div><figure><video data-demo="studio" muted loop controls playsinline preload="none" poster="${captureSrc("studio")}" aria-label="${t("Cinco exemplos reais do Estúdio: circuito, química, função quadrática, fotossíntese e movimento lunar", "Five real Studio examples: circuit, chemistry, quadratic function, photosynthesis and lunar motion")}"></video><figcaption>${t("ESTÚDIO EM ACÇÃO · REPRODUZIR DEMONSTRAÇÃO", "STUDIO IN ACTION · PLAY DEMONSTRATION")}</figcaption><p class="demo-description">${t("Cinco ideias no Estúdio: circuito, neutralização, parábola, fotossíntese e movimento na Lua. Gravação real, sem som. Reproduz ao entrar no ecrã; usa os controlos para pausar. Com movimento reduzido, começa apenas quando escolhes reproduzir.", "Five Studio ideas: circuit, neutralisation, parabola, photosynthesis and motion on the Moon. Actual recording, without audio. Plays when it enters the screen; use the controls to pause. With reduced motion, playback starts only when you choose.")}</p></figure></section>
  <section id="download" class="download-section"><div class="wrap download-hub"><div class="download-heading"><div><div class="eyebrow">${t("O TEU PRÓXIMO PASSO", "YOUR NEXT STEP")}</div><h2>${t("O teu laboratório.<br>À tua maneira.", "Your laboratory.<br>Your way.")}</h2></div><p>${t("Escolhe o formato para o teu computador: instalador ou versão portátil para Windows, AppImage para Linux.", "Choose the format for your computer: installer or portable version for Windows, AppImage for Linux.")}</p></div><div class="download-platforms">${renderDownloads()}</div><div class="download-footnote">${icon("shield-check")}<p>${t("Windows 1.0.2: instalador e versão portátil disponíveis. Os executáveis não estão assinados digitalmente e o Windows pode mostrar um aviso. O AppImage para Linux também está disponível na versão 1.0.2.", "Windows 1.0.2: installer and portable version available. The executables are not digitally signed and Windows may show a warning. The Linux AppImage is also available in version 1.0.2.")}</p></div></div></section>
+${renderInstallerSafety()}
  <section class="section wrap faq" id="perguntas"><div><div class="eyebrow">04 / ${t("BOM SABER", "GOOD TO KNOW")}</div><h2>${t("Antes de começar.", "Before you begin.")}</h2></div><div>${[
    [
      t("Preciso de internet?", "Do I need internet?"),
@@ -432,6 +451,47 @@ function render() {
       localStorage.setItem("simlab-theme", theme);
     } catch {}
     applyTheme();
+  };
+  const safetyVideo = document.querySelector("#safety-video");
+  const safetyReduced = matchMedia("(prefers-reduced-motion: reduce)");
+  let safetyVisible = false;
+  let safetyAutoAllowed = true;
+  let safetyAutomaticPause = false;
+  const safetyStop = () => {
+    if (!safetyVideo.paused) {
+      safetyAutomaticPause = true;
+      safetyVideo.pause();
+    }
+  };
+  const safetyPlayback = () => {
+    if (!safetyVisible || document.hidden) safetyStop();
+    else if (!safetyReduced.matches && safetyAutoAllowed) {
+      safetyVideo.play().catch(() => {});
+    }
+  };
+  const safetyMotionChanged = () => {
+    if (safetyReduced.matches) safetyStop();
+    else safetyPlayback();
+  };
+  safetyVideo.addEventListener("pause", () => {
+    if (!safetyAutomaticPause) safetyAutoAllowed = false;
+    safetyAutomaticPause = false;
+  });
+  const safetyObserver = new IntersectionObserver(
+    ([entry]) => {
+      safetyVisible = entry.isIntersecting && entry.intersectionRatio >= 0.4;
+      safetyPlayback();
+    },
+    { threshold: 0.4 },
+  );
+  safetyObserver.observe(safetyVideo);
+  document.addEventListener("visibilitychange", safetyPlayback);
+  safetyReduced.addEventListener("change", safetyMotionChanged);
+  safetyCleanup = () => {
+    safetyObserver.disconnect();
+    safetyVideo.pause();
+    document.removeEventListener("visibilitychange", safetyPlayback);
+    safetyReduced.removeEventListener("change", safetyMotionChanged);
   };
   createIcons({ icons });
   document.querySelector("#language").onclick = () => {
